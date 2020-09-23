@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/bottom_home_icon"
+        android:title="홈"
+        />
+
+    <item
+        android:id="@+id/menu_share_board"
+        android:icon="@drawable/bottom_shard_board_icon"
+        android:title="공유" />
+
+    <item
+        android:id="@+id/menu_major_board"
+        android:icon="@drawable/bottom_major_board_icon"
+        android:title="전공" />
+
+    <item
+        android:id="@+id/menu_news"
+        android:icon="@drawable/bottom_news_icon"
+        android:title="뉴스" />
+
+    <item
+        android:id="@+id/menu_information"
+        android:icon="@drawable/bottom_information_icon"
+        android:title="정보" />
+
+</menu>
