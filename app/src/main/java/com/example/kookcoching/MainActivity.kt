@@ -2,6 +2,7 @@ package com.example.kookcoching
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.example.kookcoching.Adapter.MainFragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
