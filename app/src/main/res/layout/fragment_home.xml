@@ -8,6 +8,11 @@
     android:orientation="vertical">
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_slot"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_slider"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
