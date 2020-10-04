@@ -21,14 +21,12 @@ import kotlin.collections.ArrayList
 class HomeFragment : Fragment() {
     internal lateinit var viewPager: ViewPager
     internal lateinit var slot_viewPager: ViewPager
-
     var items : ArrayList<String> = arrayListOf()
 
     var currentPage : Int = 0
     lateinit var timer : Timer
     var DELAY_MS : Long = 1000
     var PERIOD_MS : Long = 1000
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +67,7 @@ class HomeFragment : Fragment() {
         Thread.sleep(2000L)
 
         // 출력하기 편하게 String을 Slicing하는 부분
+
         for ( i in 0..items.size ) {
             items[0] = items[0].replace("  "," ")
         }
@@ -103,7 +102,6 @@ class HomeFragment : Fragment() {
             }
 
         })
-
         return view
     }
 
