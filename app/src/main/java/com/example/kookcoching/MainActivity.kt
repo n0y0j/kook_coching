@@ -2,11 +2,16 @@ package com.example.kookcoching
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.example.kookcoching.Adapter.MainFragmentPagerAdapter
+import com.example.kookcoching.Fragment.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,10 +43,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
     }
-
-
-
 }
 
