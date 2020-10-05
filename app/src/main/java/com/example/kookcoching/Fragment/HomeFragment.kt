@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.kookcoching.Fragment.Home.HomePagerAdapter
-import com.example.kookcoching.Fragment.Home.ImageViewScrolling.HomeSlotAdapter
+import com.example.kookcoching.Fragment.Home.TextViewScrolling.HomeSlotAdapter
 import com.example.kookcoching.R
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
@@ -19,7 +19,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
-    internal lateinit var viewPager: ViewPager
+    // Image Slider ViewPager
+    internal lateinit var slider_viewPager: ViewPager
+    // TextView Slot ViewPager
     internal lateinit var slot_viewPager: ViewPager
     var items : ArrayList<String> = arrayListOf()
 
@@ -50,7 +52,7 @@ class HomeFragment : Fragment() {
                 val elements : Elements = doc.select("table tbody tr")
 
                 // 1~20등 까지의 정보만을 파싱함
-                for (i in 0..19) {
+                for (i in 0..9) {
                     // 위 Elements 객체에서 td 태그의 정보들만 가져옴
                     // 현재 년도 순의, 작년 순위, 언어 이름, 사용빈도 등등
                     val item_temp = elements[i].select("td").text()
@@ -68,25 +70,24 @@ class HomeFragment : Fragment() {
 
         // 출력하기 편하게 String을 Slicing하는 부분
 
-        for ( i in 0..items.size ) {
-            items[0] = items[0].replace("  "," ")
+        for ( i in 0..items.size-1 ) {
+            items[i] = items[i].replace("  "," ")
         }
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        viewPager = view.findViewById(R.id.viewpager_slider) as ViewPager
+        slider_viewPager = view.findViewById(R.id.viewpager_slider) as ViewPager
         slot_viewPager = view.findViewById(R.id.viewpager_slot) as ViewPager
 
         // items List를 인자로 보냄
         val adapter = HomePagerAdapter(context, items)
         val slot_adapter = HomeSlotAdapter(context)
 
-        viewPager.adapter = adapter
+        slider_viewPager.adapter = adapter
         slot_viewPager.adapter = slot_adapter
 
-        updatePage(viewPager)
-        updatePage(slot_viewPager)
+        updatePage(slider_viewPager)
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        slider_viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -113,7 +114,7 @@ class HomeFragment : Fragment() {
         var handler = Handler()
 
         val Update: Runnable = Runnable {
-            if (currentPage == 20) {
+            if (currentPage == 10) {
                 currentPage = 0
             }
             view.setCurrentItem(currentPage++, true)

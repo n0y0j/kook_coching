@@ -20,11 +20,11 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_marginLeft="30dp"
-                android:layout_width="120dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical|center">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -33,12 +33,11 @@
                     android:text="오늘은"
                     android:textSize="40dp"/>
 
-                <com.example.kookcoching.Fragment.Home.ImageViewScrolling.ImageViewScrolling
-                    android:id="@+id/slot_image"
+                <com.example.kookcoching.Fragment.Home.TextViewScrolling.TextViewScrolling
+                    android:id="@+id/slot_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-                </com.example.kookcoching.Fragment.Home.ImageViewScrolling.ImageViewScrolling>
+                    android:layout_gravity="center" ></com.example.kookcoching.Fragment.Home.TextViewScrolling.TextViewScrolling>
 
                 <TextView
                     android:layout_width="wrap_content"
