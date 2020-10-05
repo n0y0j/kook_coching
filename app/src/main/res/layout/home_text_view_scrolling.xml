@@ -4,19 +4,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/currentImage"
+    <TextView
+        android:id="@+id/currentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
         android:layout_gravity="center"
-        android:src="@drawable/temp"/>
+        android:text="이거"/>
 
-    <ImageView
-        android:id="@+id/nextImage"
+    <TextView
+        android:id="@+id/nextText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:textColor="#FFFFFF"
         android:layout_gravity="center"
-        android:src="@drawable/temp"/>
+        android:text="이거"/>
 
 
 </FrameLayout>

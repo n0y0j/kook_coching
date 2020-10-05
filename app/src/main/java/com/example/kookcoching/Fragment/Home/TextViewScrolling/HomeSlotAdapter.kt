@@ -1,4 +1,4 @@
-package com.example.kookcoching.Fragment.Home.ImageViewScrolling
+package com.example.kookcoching.Fragment.Home.TextViewScrolling
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.Button
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.kookcoching.R
-import kotlinx.android.synthetic.main.home_viewpager_slot.view.*
 import kotlin.random.Random
 
 
@@ -26,11 +25,11 @@ class HomeSlotAdapter(private val context: Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v = layoutInflater!!.inflate(R.layout.home_viewpager_slot, null)
-        val slot_image = v.findViewById<View>(R.id.slot_image) as ImageViewScrolling
+        val slot_text = v.findViewById<View>(R.id.slot_text) as TextViewScrolling
         val slot_btn = v.findViewById<Button>(R.id.slot_btn) as Button
 
         slot_btn.setOnClickListener{
-            slot_image.setValueRandom(Random.nextInt(4), Random.nextInt(10)+5)
+            slot_text.setValueRandom(Random.nextInt(4), Random.nextInt(10)+5)
 
         }
 
@@ -39,6 +38,7 @@ class HomeSlotAdapter(private val context: Context) : PagerAdapter() {
 
         return v
     }
+
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         val vp = container as ViewPager
