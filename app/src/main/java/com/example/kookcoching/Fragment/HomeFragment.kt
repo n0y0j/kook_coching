@@ -51,12 +51,12 @@ class HomeFragment : Fragment() {
                 // html 태그의 table -> tbody -> tr의 정보를 받아옴
                 val elements : Elements = doc.select("table tbody tr")
 
-                // 1~20등 까지의 정보만을 파싱함
+                // 1~10등 까지의 정보만을 파싱함
                 for (i in 0..9) {
                     // 위 Elements 객체에서 td 태그의 정보들만 가져옴
                     // 현재 년도 순의, 작년 순위, 언어 이름, 사용빈도 등등
                     val item_temp = elements[i].select("td").text()
-                    // 1~20등까지의 정보를 저장
+                    val item = item_temp.replace("  ", " ")
                     items.add(item_temp)
                 }
                 // return 하는 부분
@@ -66,17 +66,13 @@ class HomeFragment : Fragment() {
 
         // items ArrayList가 값을 저장할 수 있게 기다리는 부분
         // 차후, 앱의 개발을 위해 수정이 필요한 부분
-        Thread.sleep(2000L)
+        Thread.sleep(3000L)
 
-        // 출력하기 편하게 String을 Slicing하는 부분
-
-        for ( i in 0..items.size-1 ) {
-            items[i] = items[i].replace("  "," ")
-        }
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         slider_viewPager = view.findViewById(R.id.viewpager_slider) as ViewPager
         slot_viewPager = view.findViewById(R.id.viewpager_slot) as ViewPager
+        println(items)
 
         // items List를 인자로 보냄
         val adapter = HomePagerAdapter(context, items)
