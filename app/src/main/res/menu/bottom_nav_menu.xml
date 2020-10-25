@@ -19,13 +19,9 @@
         android:title="전공" />
 
     <item
-        android:id="@+id/menu_news"
+        android:id="@+id/menu_project"
         android:icon="@drawable/bottom_news_icon"
-        android:title="뉴스" />
+        android:title="프로젝트" />
 
-    <item
-        android:id="@+id/menu_information"
-        android:icon="@drawable/bottom_information_icon"
-        android:title="정보" />
 
 </menu>

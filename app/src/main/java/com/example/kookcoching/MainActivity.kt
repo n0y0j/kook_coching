@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_home -> view_pager.currentItem = 0
                 R.id.menu_share_board -> view_pager.currentItem = 1
                 R.id.menu_major_board -> view_pager.currentItem = 2
-                R.id.menu_news -> view_pager.currentItem = 3
-                R.id.menu_information -> view_pager.currentItem = 4
+                R.id.menu_project -> view_pager.currentItem = 3
             }
             true
         }
