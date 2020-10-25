@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:text="오늘은"
+                    android:fontFamily="@font/tmonmonsori"
                     android:textSize="40dp"/>
 
                 <com.example.kookcoching.Fragment.Home.TextViewScrolling.TextViewScrolling
@@ -44,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:text="어때요"
+                    android:fontFamily="@font/tmonmonsori"
                     android:textSize="40dp"/>
 
             </LinearLayout>
@@ -57,6 +59,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="30dp"
                 android:drawableLeft="@drawable/home_slot_btn"
+                android:fontFamily="@font/tmonmonsori"
                 android:text="시작"/>
 
 

@@ -5,10 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.MajorBoardFragment">
 
-    <TextView
-        android:gravity="center"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="major_board_fragment" />
+        android:layout_height="wrap_content"
+        android:background="#002060">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전공 게시판"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_moveToBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시글 작성"
+            android:layout_gravity="end"
+            android:textColor="#FFFFFF"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
 </FrameLayout>
