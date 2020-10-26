@@ -67,12 +67,18 @@ class ShareBoardFragment : Fragment() {
                 Log.d(ContentValues.TAG, " ${i.title} => ${i.content}")
             }
 
+            // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
+            activity?.runOnUiThread(Runnable {
+
+                val adapter = RecyclerAdapter(postList)
+                rv_post.adapter = adapter
+            })
+
         }
 
         // 리사이클뷰 어댑터 연결 -> 이거를 코루틴 안으로 넣어야함
         // 게시글 작성 저장 후에 표시는 됨
-        val adapter = RecyclerAdapter(postList)
-        rv_post.adapter = adapter
+
 
         return view
     }
