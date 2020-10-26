@@ -3,7 +3,7 @@
 <!--RelativeLayout은 상대 위치에 하위 뷰를 표시하는 뷰 그룹-->
 <!--중첩된 뷰 그룹을 없애고 레이아웃 계층 구조를 평면으로 유지하여 성능을 개선하므로
     사용자 인터페이스 설계에 매우 유용한 유틸리티-->
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,8 +15,9 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp"></androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -32,4 +33,4 @@
         app:itemTextColor="@color/bottom_tab_item"
         app:menu="@menu/bottom_nav_menu"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
