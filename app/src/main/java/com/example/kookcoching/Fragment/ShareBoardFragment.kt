@@ -9,11 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.Fragment.Share.Post
 import com.example.kookcoching.Fragment.Share.WriteBoardActivity
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_shard_board.*
 import kotlinx.coroutines.*
 
 class ShareBoardFragment : Fragment() {
@@ -28,6 +33,7 @@ class ShareBoardFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         val view = inflater.inflate(R.layout.fragment_shard_board, container, false)
         val btn_move = view!!.findViewById(R.id.btn_moveToBoard) as Button
+        val rv_post = view!!.findViewById(R.id.rv_post) as RecyclerView
         // Inflate the layout for this fragment
 
         btn_move.setOnClickListener {
@@ -63,6 +69,12 @@ class ShareBoardFragment : Fragment() {
 
         }
 
+        // 리사이클뷰 어댑터 연결 -> 이거를 코루틴 안으로 넣어야함
+        // 게시글 작성 저장 후에 표시는 됨
+        val adapter = RecyclerAdapter(postList)
+        rv_post.adapter = adapter
+
         return view
     }
+
 }
