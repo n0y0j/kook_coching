@@ -73,12 +73,7 @@ class ShareBoardFragment : Fragment() {
                 val adapter = RecyclerAdapter(postList)
                 rv_post.adapter = adapter
             })
-
         }
-
-        // 리사이클뷰 어댑터 연결 -> 이거를 코루틴 안으로 넣어야함
-        // 게시글 작성 저장 후에 표시는 됨
-
 
         return view
     }
