@@ -18,7 +18,7 @@ import com.example.kookcoching.Fragment.Share.WriteBoardActivity
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_shard_board.*
+import kotlinx.android.synthetic.main.fragment_share_board.*
 import kotlinx.coroutines.*
 
 class ShareBoardFragment : Fragment() {
@@ -31,7 +31,7 @@ class ShareBoardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         firestore = FirebaseFirestore.getInstance()
-        val view = inflater.inflate(R.layout.fragment_shard_board, container, false)
+        val view = inflater.inflate(R.layout.fragment_share_board, container, false)
         val btn_move = view!!.findViewById(R.id.btn_moveToBoard) as Button
         val rv_post = view!!.findViewById(R.id.rv_post) as RecyclerView
         // Inflate the layout for this fragment
