@@ -43,6 +43,7 @@ class ShareBoardFragment : Fragment() {
             }
         }
 
+        // 2020.10.26 / 노용준 / Get data in firestore
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
