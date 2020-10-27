@@ -27,8 +27,8 @@ class HomeFragment : Fragment() {
 
     var currentPage : Int = 0
     lateinit var timer : Timer
-    var DELAY_MS : Long = 1000
-    var PERIOD_MS : Long = 1000
+    var DELAY_MS : Long = 2000
+    var PERIOD_MS : Long = 2000
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
                     // 현재 년도 순의, 작년 순위, 언어 이름, 사용빈도 등등
                     val item_temp = elements[i].select("td").text()
                     val item = item_temp.replace("  ", " ")
-                    items.add(item_temp)
+                    items.add(item)
                 }
                 // return 하는 부분
                 items
