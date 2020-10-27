@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Fragment.Share.Post
 import com.example.kookcoching.R
 import kotlinx.coroutines.CoroutineScope
+import org.w3c.dom.Text
 
 // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 기능
 class RecyclerAdapter(val itemList: ArrayList<Post>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
@@ -31,10 +32,12 @@ class RecyclerAdapter(val itemList: ArrayList<Post>) : RecyclerView.Adapter<Recy
     // 카드뷰 xml을 이용해 리사이클뷰 아이템 표시
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
+        val tag = itemView?.findViewById<TextView>(R.id.cardView_tag)
         val title = itemView?.findViewById<TextView>(R.id.cardView_title)
         val content = itemView?.findViewById<TextView>(R.id.cardView_content)
 
         fun bind (post: Post){
+            tag?.text = "[" + post.tag + "]"
             title?.text = post.title
             content?.text = post.content
         }
