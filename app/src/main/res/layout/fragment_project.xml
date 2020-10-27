@@ -9,7 +9,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#002060">
+        android:background="#2f2f7e"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="게시글 작성"
             android:layout_gravity="end"
+            android:backgroundTint="#2f2f7e"
             android:textColor="#FFFFFF"/>
 
     </androidx.appcompat.widget.Toolbar>

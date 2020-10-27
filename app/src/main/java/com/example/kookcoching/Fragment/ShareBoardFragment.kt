@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,11 @@ class ShareBoardFragment : Fragment() {
         btn_move.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, WriteBoardActivity::class.java)
-                startActivity(intent)
+
+                // 2020.10.27 / 노용준 / Chip의 개수를 파악하기 위함 (게시판 별로 개수가 다름을 구분)
+                intent.putExtra("chip_type", "share")
+
+                startActivityForResult(intent, 0)
             }
         }
 
@@ -48,12 +53,14 @@ class ShareBoardFragment : Fragment() {
 
         scope.launch {
             val deferred : Deferred<ArrayList<Post>> = async {
-                var docRef = firestore!!.collection("post").get()
+                var docRef = firestore!!.collection("share_post").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
-                            var title : String = document.get("title").toString();
-                            var content : String = document.get("content").toString();
-                            var post = Post(title, content, Timestamp.now());
+                            var title : String = document.get("title").toString()
+                            var content : String = document.get("content").toString()
+                            var time : Long = document.get("time") as Long
+                            var tag : String = document.get("tag").toString()
+                            var post = Post(title, content, time, tag);
                             postList.add(post)
                         }
                     }
@@ -73,10 +80,18 @@ class ShareBoardFragment : Fragment() {
 
                 val adapter = RecyclerAdapter(postList)
                 rv_post.adapter = adapter
+                postList = arrayListOf()
             })
         }
 
         return view
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var ft: FragmentTransaction = fragmentManager!!.beginTransaction()
+        ft.detach(this).attach(this).commit()
+    }
+
 
 }
