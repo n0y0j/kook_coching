@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
                 android:layout_gravity="center"
+                android:backgroundTint="#2f2f7e"
                 android:textColor="#FFFFFF"
                 android:textSize="30dp"
                 android:drawableLeft="@drawable/home_slot_btn"

@@ -39,6 +39,10 @@ class ShareBoardFragment : Fragment() {
         btn_move.setOnClickListener {
             activity?.let {
                 val intent = Intent(context, WriteBoardActivity::class.java)
+
+                // 2020.10.27 / 노용준 / Chip의 개수를 파악하기 위함 (게시판 별로 개수가 다름을 구분)
+                intent.putExtra("chip_type", "share")
+
                 startActivity(intent)
             }
         }
