@@ -2,10 +2,13 @@ package com.example.kookcoching.Fragment.Share
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kookcoching.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 // 2020.10.28 / 문성찬 / PostViewActivity 작성
 class PostViewActivity: AppCompatActivity() {
@@ -26,8 +29,13 @@ class PostViewActivity: AppCompatActivity() {
         var inIntent: Intent = getIntent()
         title.setText(inIntent.getStringExtra("title"))
         content.setText(inIntent.getStringExtra("content"))
-        // 요거 time.setText 수정 요망
-//        time.setText(inIntent.getStringExtra("time"))
+
+        // 2020.10.28 / 노용준 / epoch time to date
+        val itemDate = Date(inIntent.getLongExtra("time",0))
+        val dateFormat = SimpleDateFormat("MM/dd HH:mm")
+        dateFormat.timeZone = TimeZone.getTimeZone("GMT+09:00")
+        val date = dateFormat.format(itemDate)
+        time.setText(date)
 
         // "< 공유게시판" 버튼 클릭 시 동작
         btn_return.setOnClickListener {

@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="&lt; 공유게시판"
+            android:backgroundTint="#2f2f7e"
             android:textColor="#FFFFFF" />
 
     </androidx.appcompat.widget.Toolbar>
@@ -47,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginBottom="12dp"
@@ -66,10 +67,12 @@
                     android:layout_marginStart="144dp"
                     android:layout_weight="1"
                     android:text="좋아요"
+                    android:backgroundTint="#2f2f7e"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_date"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="1.0"
+                    />
 
                 <Button
                     android:id="@+id/btn_scrap"
@@ -77,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="스크랩"
+                    android:backgroundTint="#2f2f7e"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_like"
                     app:layout_constraintTop_toTopOf="parent"
@@ -146,6 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
+            android:backgroundTint="#2f2f7e"
             android:text="작성" />
     </LinearLayout>
 
