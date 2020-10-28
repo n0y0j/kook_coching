@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.Fragment.Share.Post
+import com.example.kookcoching.Fragment.Share.PostViewActivity
 import com.example.kookcoching.Fragment.Share.WriteBoardActivity
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
@@ -72,18 +74,35 @@ class ShareBoardFragment : Fragment() {
             val obj : ArrayList<Post> = deferred.await();
 
             for ( i in obj) {
-                Log.d(ContentValues.TAG, " ${i.title} => ${i.content}")
+                Log.d(ContentValues.TAG, "obj : ${i.title} => ${i.content}")
             }
 
+            // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 연결
             // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             activity?.runOnUiThread(Runnable {
-
                 val adapter = RecyclerAdapter(postList)
+
+                // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 시 인텐트로 액티비티 넘김
+                adapter.setItemClickListener(object : RecyclerAdapter.itemClickListener{
+                    override fun onClick(view: View, position: Int) {
+                        // 넘어가는 인텐트 로그캣
+                        Log.d("SSS","인덱스 : ${position}")
+                        Log.d("SSS","title : ${obj[position].title}")
+                        Log.d("SSS","content : ${obj[position].content}")
+                        Log.d("SSS","time : ${obj[position].time}")
+
+                        val intent = Intent(context, PostViewActivity::class.java)
+                        intent.putExtra("title", obj[position].title)
+                        intent.putExtra("content", obj[position].content)
+                        intent.putExtra("time", obj[position].time)
+                        startActivity(intent)
+                    }
+                })
+                
                 rv_post.adapter = adapter
                 postList = arrayListOf()
             })
         }
-
         return view
     }
 
