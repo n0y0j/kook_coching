@@ -98,7 +98,7 @@ class ShareBoardFragment : Fragment() {
                         startActivity(intent)
                     }
                 })
-                
+
                 rv_post.adapter = adapter
                 postList = arrayListOf()
             })
