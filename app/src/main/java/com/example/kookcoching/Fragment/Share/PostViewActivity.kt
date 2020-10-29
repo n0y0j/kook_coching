@@ -51,9 +51,11 @@ class PostViewActivity: AppCompatActivity() {
             var fbFirebase: FirebaseFirestore? = null
 
             fbFirebase = FirebaseFirestore.getInstance()
-            fbFirebase?.collection("share_post")?.document(title.text.toString())
-                .collection("share_post_comment").document()
-                ?.set(Comment(comment.text.toString(),System.currentTimeMillis()))
+            fbFirebase?.collection("share_post")?.document(inIntent.getLongExtra("time", 0).toString())
+                // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
+                .collection("share_post_comment").document(System.currentTimeMillis().toString())
+                ?.set(Comment(comment.text.toString()))
+            comment.setText("")
             Toast.makeText(this, "댓글이 입력되었습니다.", Toast.LENGTH_SHORT).show()
         }
 

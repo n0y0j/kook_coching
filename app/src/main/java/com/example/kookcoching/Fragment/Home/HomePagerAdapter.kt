@@ -19,6 +19,7 @@ import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import org.w3c.dom.Document
 
+// 2020.10. / 노용준 / image scroll view adapter
 class HomePagerAdapter(private val context: Context, items : ArrayList<String>) : PagerAdapter() {
     private var layoutInflater : LayoutInflater? = null
 
