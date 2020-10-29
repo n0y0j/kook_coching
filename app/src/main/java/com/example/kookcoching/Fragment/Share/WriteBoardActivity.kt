@@ -56,6 +56,7 @@ class WriteBoardActivity : AppCompatActivity() {
             finish()
         }
 
+        // 노성환 / firestore 게시판 컬렉션에 저장
         btn_store.setOnClickListener {
             val title = findViewById(R.id.et_title) as EditText
             val content = findViewById<EditText>(R.id.et_content)
@@ -67,6 +68,7 @@ class WriteBoardActivity : AppCompatActivity() {
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
             finish()
         }
+
     }
 }
 
