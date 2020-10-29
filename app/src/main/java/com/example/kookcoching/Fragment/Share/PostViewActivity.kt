@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kookcoching.R
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +43,18 @@ class PostViewActivity: AppCompatActivity() {
         // "< 공유게시판" 버튼 클릭 시 동작
         btn_return.setOnClickListener {
             finish()
+        }
+
+        // 2020.10.28 / 노성환 / 댓글 작성 버튼 누르면 firestore의 하위 컬렉션에 저장
+        btn_write.setOnClickListener {
+            val comment = findViewById<EditText>(R.id.et_comment)
+            var fbFirebase: FirebaseFirestore? = null
+
+            fbFirebase = FirebaseFirestore.getInstance()
+            fbFirebase?.collection("share_post")?.document(title.text.toString())
+                .collection("share_post_comment").document()
+                ?.set(Comment(comment.text.toString(),System.currentTimeMillis()))
+            Toast.makeText(this, "댓글이 입력되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
     }
