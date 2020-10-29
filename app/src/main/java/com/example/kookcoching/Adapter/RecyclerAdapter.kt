@@ -1,25 +1,19 @@
 package com.example.kookcoching.Adapter
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kookcoching.Fragment.Share.Post
-import com.example.kookcoching.Fragment.Share.WriteBoardActivity
+import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
-import kotlinx.coroutines.CoroutineScope
-import org.w3c.dom.Text
 
 // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 기능
-class RecyclerAdapter(val itemList: ArrayList<Post>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
+class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
 
     // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 이벤트 구현
     // 데어터를 저장할 아이템 리스트
-    val items = ArrayList<Post>()
+    val items = ArrayList<getPost>()
 
     // 클릭 인터페이스 정의
     interface itemClickListener{
@@ -61,7 +55,7 @@ class RecyclerAdapter(val itemList: ArrayList<Post>) : RecyclerView.Adapter<Recy
         val title = itemView?.findViewById<TextView>(R.id.cardView_title)
         val content = itemView?.findViewById<TextView>(R.id.cardView_content)
 
-        fun bind (post: Post, num: Int){
+        fun bind (post: getPost, num: Int){
             tag?.text = "[" + post.tag + "]"
             title?.text = post.title
             content?.text = post.content

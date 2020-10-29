@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.example.kookcoching.R
 import kotlinx.android.synthetic.main.home_text_view_scrolling.view.*
 
+// 2020.10. / 노용준 / 슬롯머신 애니메이션
 class TextViewScrolling : FrameLayout {
     // 현재 가리키는 Text의 value
     internal var oldValue = 0

@@ -63,8 +63,10 @@ class WriteBoardActivity : AppCompatActivity() {
             var fbFirestore: FirebaseFirestore? = null
 
             fbFirestore = FirebaseFirestore.getInstance() // firestore 인스턴스 초기화
-            fbFirestore?.collection("share_post")?.document(title.text.toString())
-                ?.set(Post(title.text.toString(),content.text.toString(), System.currentTimeMillis(), tag))
+
+            // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
+            fbFirestore?.collection("share_post")?.document(System.currentTimeMillis().toString())
+                ?.set(Post(title.text.toString(),content.text.toString(), tag))
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
             finish()
         }

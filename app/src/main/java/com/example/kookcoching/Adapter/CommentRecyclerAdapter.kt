@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Fragment.Share.Comment
+import com.example.kookcoching.Fragment.Share.getComment
 import com.example.kookcoching.R
 import java.text.SimpleDateFormat
 import java.util.*
 
 // 2020.10.26 / 문성찬 / 댓글 리사이클뷰 어댑터 기능
-class CommentRecyclerAdapter(val commentList: ArrayList<Comment>):
+class CommentRecyclerAdapter(val commentList: ArrayList<getComment>):
     RecyclerView.Adapter<CommentRecyclerAdapter.ViewHolder>() {
 
     // 화면을 최초 로딩하여 만들어진 View가 없는 경우, xml파일을 inflate하여 ViewHolder를 생성
@@ -35,11 +36,11 @@ class CommentRecyclerAdapter(val commentList: ArrayList<Comment>):
         val comment = itemView?.findViewById<TextView>(R.id.tv_comment)
         val commentTime = itemView?.findViewById<TextView>(R.id.tv_commentTime)
 
-        fun bind (data: Comment, num: Int){
+        fun bind (data: getComment, num: Int){
             comment?.text = data.comment
 
             // 2020.10.28 / 노용준 / epoch time to date
-            val itemDate = Date(data.commentTime)
+            val itemDate = Date(data.time)
             val dateFormat = SimpleDateFormat("MM/dd HH:mm")
             dateFormat.timeZone = TimeZone.getTimeZone("GMT+09:00")
             val date = dateFormat.format(itemDate)

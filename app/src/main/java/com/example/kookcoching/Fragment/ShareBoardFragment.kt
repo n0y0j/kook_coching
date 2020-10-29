@@ -18,6 +18,7 @@ import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.Fragment.Share.Post
 import com.example.kookcoching.Fragment.Share.PostViewActivity
 import com.example.kookcoching.Fragment.Share.WriteBoardActivity
+import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,7 +28,7 @@ import kotlinx.coroutines.*
 class ShareBoardFragment : Fragment() {
 
     var firestore : FirebaseFirestore?= null
-    var postList : ArrayList<Post> = arrayListOf()
+    var postList : ArrayList<getPost> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,15 +55,15 @@ class ShareBoardFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
-            val deferred : Deferred<ArrayList<Post>> = async {
+            val deferred : Deferred<ArrayList<getPost>> = async {
                 var docRef = firestore!!.collection("share_post").get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
                             var title : String = document.get("title").toString()
                             var content : String = document.get("content").toString()
-                            var time : Long = document.get("time") as Long
+                            var time : Long = document.id.toLong()
                             var tag : String = document.get("tag").toString()
-                            var post = Post(title, content, time, tag);
+                            var post = getPost(title, content, time, tag);
                             postList.add(post)
                         }
                     }
@@ -71,7 +72,7 @@ class ShareBoardFragment : Fragment() {
                 postList
             }
 
-            val obj : ArrayList<Post> = deferred.await();
+            val obj : ArrayList<getPost> = deferred.await();
 
             for ( i in obj) {
                 Log.d(ContentValues.TAG, "obj : ${i.title} => ${i.content}")
@@ -89,7 +90,6 @@ class ShareBoardFragment : Fragment() {
                         Log.d("SSS","인덱스 : ${position}")
                         Log.d("SSS","title : ${obj[position].title}")
                         Log.d("SSS","content : ${obj[position].content}")
-                        Log.d("SSS","time : ${obj[position].time}")
 
                         val intent = Intent(context, PostViewActivity::class.java)
                         intent.putExtra("title", obj[position].title)
