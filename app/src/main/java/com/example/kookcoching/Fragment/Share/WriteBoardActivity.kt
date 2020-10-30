@@ -1,13 +1,19 @@
 package com.example.kookcoching.Fragment.Share
 
+import android.Manifest
+import android.Manifest.permission.*
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.kookcoching.Fragment.ShareBoardFragment
 import com.example.kookcoching.R
@@ -15,6 +21,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import gun0912.tedbottompicker.TedBottomPicker
+import gun0912.tedbottompicker.TedBottomSheetDialogFragment
 
 class WriteBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +33,8 @@ class WriteBoardActivity : AppCompatActivity() {
 
         val btn_cancel = findViewById(R.id.btn_cancel) as Button
         val btn_store = findViewById(R.id.btn_store) as Button
+        val btn_camera = findViewById(R.id.cameta_btn) as ImageButton
+
         val chipGroup = findViewById(R.id.chip_group) as ChipGroup
         var tag : String = ""
 
@@ -30,6 +42,33 @@ class WriteBoardActivity : AppCompatActivity() {
 
         var intent: Intent = getIntent()
         val chip_count: String? = intent.getStringExtra("chip_type")
+
+        btn_camera.setOnClickListener{
+
+            // 2020.10.30 / 노용준 / 앨범 권한에 대한 Permission
+            var permissionlistener:PermissionListener = object: PermissionListener {
+                override fun onPermissionGranted() {
+                    var selectUrlList:List<Uri> = listOf()
+                    Toast.makeText(this@WriteBoardActivity, "권한 허가", Toast.LENGTH_SHORT).show()
+
+                }
+                override fun onPermissionDenied(deniedPermissions:List<String>) {
+                    Toast.makeText(this@WriteBoardActivity, "권한 거부" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            ActivityCompat.requestPermissions(this@WriteBoardActivity, arrayOf<String>(READ_CONTACTS, WRITE_EXTERNAL_STORAGE),
+                1)
+
+            TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service Please turn on permissions at [Setting] > [Permission]")
+                .setPermissions(READ_CONTACTS, WRITE_EXTERNAL_STORAGE)
+                .check()
+
+        }
+
+
 
         // 2020.10.26 / 노용준 / 게시판 별로 tag 생성
         when {
