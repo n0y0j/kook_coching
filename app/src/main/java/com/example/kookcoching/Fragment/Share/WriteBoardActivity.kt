@@ -51,6 +51,18 @@ class WriteBoardActivity : AppCompatActivity() {
                     var selectUrlList:List<Uri> = listOf()
                     Toast.makeText(this@WriteBoardActivity, "권한 허가", Toast.LENGTH_SHORT).show()
 
+                    TedBottomPicker.with(this@WriteBoardActivity)
+                        .setPeekHeight(1600)
+                        .showTitle(false)
+                        .setCompleteButtonText("Done")
+                        .setEmptySelectionText("No Select")
+                        .setSelectedUriList(selectUrlList)
+                        .showMultiImage(object:TedBottomSheetDialogFragment.OnMultiImageSelectedListener {
+                            override fun onImagesSelected(uriList:List<Uri>) {
+                                Log.d("asd", uriList.toString())
+                            }
+                        })
+
                 }
                 override fun onPermissionDenied(deniedPermissions:List<String>) {
                     Toast.makeText(this@WriteBoardActivity, "권한 거부" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
