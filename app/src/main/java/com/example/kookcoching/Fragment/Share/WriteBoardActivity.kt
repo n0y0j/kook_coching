@@ -1,16 +1,19 @@
 package com.example.kookcoching.Fragment.Share
 
 import android.Manifest.permission.*
+import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -25,6 +28,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment
+import kotlinx.coroutines.*
 
 class WriteBoardActivity : AppCompatActivity() {
 
@@ -128,38 +132,44 @@ class WriteBoardActivity : AppCompatActivity() {
         btn_store.setOnClickListener {
             val title = findViewById(R.id.et_title) as EditText
             val content = findViewById<EditText>(R.id.et_content)
-
             val id = System.currentTimeMillis().toString()
+
+            var downloadUri : ArrayList<String> = arrayListOf()
 
             fbFirestore = FirebaseFirestore.getInstance() // firestore 인스턴스 초기화
             mStorageRef = FirebaseStorage.getInstance().getReference()
 
-            for ( item in selectUrlList ) {
-                val temp = item.toString().split("/")
-                val name = temp[temp.size-1]
+            val scope = CoroutineScope(Dispatchers.Default)
 
-                var imageRef = mStorageRef!!.child(id + "/" + name)
-                val uploadTask = imageRef.putFile(item)
+            scope.launch {
+                val job = launch {
+                    selectUrlList.forEach { item ->
+                        val temp = item.toString().split("/")
+                        val name = temp[temp.size - 1]
 
-                uploadTask.continueWith{
-                    imageRef.downloadUrl
-                }.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        it.result!!.addOnSuccessListener {task ->
-                            var uri = task.toString()
-                            Log.d("asd", uri)
+                        var imageRef = mStorageRef!!.child(id + "/" + name)
+                        val uploadTask = imageRef.putFile(item)
+
+                        uploadTask.continueWith {
+                            imageRef.downloadUrl
+                        }.addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                it.result!!.addOnSuccessListener { task ->
+                                    downloadUri.add(task.toString())
+                                }
+                            }
                         }
                     }
+                    Thread.sleep(2000L)
                 }
+
+                job.join()
+                // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
+                fbFirestore?.collection("share_post")?.document(id)
+                    ?.set(Post(title.text.toString(), content.text.toString(), downloadUri, tag))
+                finish()
             }
-
-            // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
-//            fbFirestore?.collection("share_post")?.document(id)
-//                ?.set(Post(title.text.toString(), content.text.toString(), tag))
-            Log.d("asd", "hizzzzzzzzzzzzzzzzzzzzz")
-
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
-            finish()
         }
 
     }
