@@ -54,12 +54,15 @@ class WriteBoardActivity : AppCompatActivity() {
 
         btn_camera.setOnClickListener{
 
-            // 2020.10.30 / 노용준 / 앨범 권한에 대한 Permission
+            // 2020.10.30 / 노용준 / 앨범 권한에 대한 Permission과 Multi Image Picker
+            // 권한 허용 시 onPermissionGranted() 함수 실행
+            // 권한 거부 시 onPermissionDenied() 함수 실행
             var permissionlistener:PermissionListener = object: PermissionListener {
                 override fun onPermissionGranted() {
                     selectUrlList = listOf()
                     Toast.makeText(this@WriteBoardActivity, "권한 허가", Toast.LENGTH_SHORT).show()
 
+                    // Multi Image Picker
                     TedBottomPicker.with(this@WriteBoardActivity)
                         .setPeekHeight(1600)
                         .showTitle(false)
@@ -137,6 +140,9 @@ class WriteBoardActivity : AppCompatActivity() {
             var downloadUri : ArrayList<String> = arrayListOf()
 
             fbFirestore = FirebaseFirestore.getInstance() // firestore 인스턴스 초기화
+
+            // 2020.10.30 / 노용준 / 선택된 Image를 Firestore에 저장
+            // FireStorage에 저장 후 Image Uri를 파싱해서 Firestore에 저장
             mStorageRef = FirebaseStorage.getInstance().getReference()
 
             val scope = CoroutineScope(Dispatchers.Default)

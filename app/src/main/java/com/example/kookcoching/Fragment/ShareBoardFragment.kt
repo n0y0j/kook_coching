@@ -62,8 +62,9 @@ class ShareBoardFragment : Fragment() {
                             var title : String = document.get("title").toString()
                             var content : String = document.get("content").toString()
                             var time : Long = document.id.toLong()
+                            var image : ArrayList<String> = document.get("image") as ArrayList<String>
                             var tag : String = document.get("tag").toString()
-                            var post = getPost(title, content, time, tag);
+                            var post = getPost(title, content, time, image, tag);
                             postList.add(post)
                         }
                     }
@@ -95,6 +96,7 @@ class ShareBoardFragment : Fragment() {
                         intent.putExtra("title", obj[position].title)
                         intent.putExtra("content", obj[position].content)
                         intent.putExtra("time", obj[position].time)
+                        intent.putExtra("image", obj[position].image)
                         startActivity(intent)
                     }
                 })

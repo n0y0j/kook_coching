@@ -1,15 +1,17 @@
 package com.example.kookcoching.Fragment.Share
 
+import android.app.ActionBar
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.kookcoching.Adapter.CommentRecyclerAdapter
 import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.R
@@ -47,6 +49,7 @@ class PostViewActivity : AppCompatActivity() {
         content.setText(inIntent.getStringExtra("content"))
 
 
+
         // 2020.10.28 / 노용준 / epoch time to date
         val itemDate = Date(inIntent.getLongExtra("time", 0))
         val dateFormat = SimpleDateFormat("MM/dd HH:mm")
@@ -54,8 +57,23 @@ class PostViewActivity : AppCompatActivity() {
         val date = dateFormat.format(itemDate)
         time.setText(date)
 
+        // 2020.10.30 / 노용준 / image의 개수만큼 View 동적 생성
+        val imageList = inIntent.getStringArrayListExtra("image")
 
-        // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
+        val image = findViewById(R.id.image_group) as LinearLayout
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f )
+
+        if (imageList != null) {
+            for (item in imageList) {
+                var temp : ImageView = ImageView(this)
+                temp.layoutParams = layoutParams
+                // url을 통해 이미지를 가져오는 Glide 라이브러리 사용
+                Glide.with(this).load(item).into(temp)
+
+                image.addView(temp)
+            }
+        }
+
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
@@ -80,6 +98,7 @@ class PostViewActivity : AppCompatActivity() {
                 Log.d(ContentValues.TAG, "obj : ${i.comment}, ${i.time}")
             }
 
+            // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
             this@PostViewActivity.runOnUiThread(Runnable {
 
                 // 리사이클러뷰에 연결
