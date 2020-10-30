@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,11 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#002060"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="#002060">
 
         <Button
             android:id="@+id/btn_returnToShare"
@@ -30,14 +27,11 @@
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/layout_comment"
-        tools:ignore="MissingConstraints">
+        android:layout_height="600dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="600dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -55,10 +49,7 @@
                     android:layout_weight="3"
                     android:text="10/26 18:33"
                     android:textAlignment="center"
-                    android:textSize="15dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteX="0dp" />
+                    android:textSize="15dp" />
 
                 <Button
                     android:id="@+id/btn_like"
@@ -68,10 +59,6 @@
                     android:layout_weight="1"
                     android:text="좋아요"
                     android:backgroundTint="#2f2f7e"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_date"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
                     />
 
                 <Button
@@ -81,15 +68,12 @@
                     android:layout_weight="1"
                     android:text="스크랩"
                     android:backgroundTint="#2f2f7e"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/btn_like"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="184dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -112,48 +96,46 @@
                     android:text="내용"
                     android:textSize="15dp" />
 
+                <LinearLayout
+                    android:id="@+id/image_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_comment"
                 android:layout_width="match_parent"
-                android:layout_height="389dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
+                android:layout_height="340dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="5dp" />
 
-                // 댓글 표시 리사이클뷰
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp" />
-
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/layout_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:hint="댓글을 작성하시오"/>
 
         <Button
             android:id="@+id/btn_commentWrite"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:backgroundTint="#2f2f7e"
             android:text="작성" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
