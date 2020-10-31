@@ -192,8 +192,7 @@ class PostViewActivity : AppCompatActivity() {
                     .document(inIntent.getLongExtra("time", 0).toString()).delete()
                     .addOnCompleteListener {
                         // 지우면 다시 게시판 목록으로 이동
-                        val intent = Intent(this, ShareBoardFragment::class.java)
-                        startActivity(intent)
+                        finish()
                     }
             }
             // 게시글 수정
