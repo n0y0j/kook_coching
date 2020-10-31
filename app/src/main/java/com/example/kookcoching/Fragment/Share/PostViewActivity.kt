@@ -1,21 +1,30 @@
 package com.example.kookcoching.Fragment.Share
 
-import android.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.kookcoching.Adapter.CommentRecyclerAdapter
 import com.example.kookcoching.Adapter.RecyclerAdapter
+import com.example.kookcoching.Fragment.ShareBoardFragment
 import com.example.kookcoching.R
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.share_viewpost.*
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -31,6 +40,10 @@ class PostViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_viewpost)
+
+        var toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle("")
+        setSupportActionBar(toolbar)
         firestore = FirebaseFirestore.getInstance()
 
         val btn_return = findViewById(R.id.btn_returnToShare) as Button
@@ -49,7 +62,6 @@ class PostViewActivity : AppCompatActivity() {
         content.setText(inIntent.getStringExtra("content"))
 
 
-
         // 2020.10.28 / 노용준 / epoch time to date
         val itemDate = Date(inIntent.getLongExtra("time", 0))
         val dateFormat = SimpleDateFormat("MM/dd HH:mm")
@@ -61,11 +73,15 @@ class PostViewActivity : AppCompatActivity() {
         val imageList = inIntent.getStringArrayListExtra("image")
 
         val image = findViewById(R.id.image_group) as LinearLayout
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f )
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1f
+        )
 
         if (imageList != null) {
             for (item in imageList) {
-                var temp : ImageView = ImageView(this)
+                var temp: ImageView = ImageView(this)
                 temp.layoutParams = layoutParams
                 // url을 통해 이미지를 가져오는 Glide 라이브러리 사용
                 Glide.with(this).load(item).into(temp)
@@ -74,6 +90,7 @@ class PostViewActivity : AppCompatActivity() {
             }
         }
 
+        // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
@@ -98,7 +115,7 @@ class PostViewActivity : AppCompatActivity() {
                 Log.d(ContentValues.TAG, "obj : ${i.comment}, ${i.time}")
             }
 
-            // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
+
             this@PostViewActivity.runOnUiThread(Runnable {
 
                 // 리사이클러뷰에 연결
@@ -135,5 +152,60 @@ class PostViewActivity : AppCompatActivity() {
             startActivity(getIntent())
         }
 
+    }
+
+    // 2020.10.30 / 노성환 / 툴바에 메뉴 추가
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return true
+    }
+
+    // 2020.10.31 / 노성환 / 툴바에 추가한 메뉴 기능 구현
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        var inIntent: Intent = getIntent()
+        var before_title = inIntent.getStringExtra("title")
+        var before_content = inIntent.getStringExtra("content")
+        var before_time = inIntent.getLongExtra("time", 0)
+        var db = FirebaseFirestore.getInstance()
+
+        when (item?.itemId) {
+            // 게시글 삭제
+            R.id.delete_post -> {
+                // firestore에서 게시물은 삭제되었지만, 댓글은 여전히 남아있어 댓글먼저 다 지움
+                db.collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .collection("share_post_comment")
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (document in task.result!!) {
+                                db.collection("share_post")
+                                    .document(inIntent.getLongExtra("time", 0).toString())
+                                    .collection("share_post_comment").document(document.id)
+                                    .delete()
+                            }
+                        }
+                    }
+                Thread.sleep(1000L)
+                // 그 이후 게시글을 지움
+                firestore!!.collection("share_post")
+                    .document(inIntent.getLongExtra("time", 0).toString()).delete()
+                    .addOnCompleteListener {
+                        // 지우면 다시 게시판 목록으로 이동
+                        val intent = Intent(this, ShareBoardFragment::class.java)
+                        startActivity(intent)
+                    }
+            }
+            // 게시글 수정
+            R.id.remake_post -> {
+                /*val intent = Intent(this, WriteBoardActivity::class.java)
+                // 기존의 제목, 내용 전달
+                intent.putExtra("before_title", before_title)
+                intent.putExtra("before_content", before_content)
+                intent.putExtra("before_time", before_time)
+                startActivity(intent)*/
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

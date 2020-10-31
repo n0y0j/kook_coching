@@ -49,7 +49,7 @@ class WriteBoardActivity : AppCompatActivity() {
         val share_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
 
         var intent: Intent = getIntent()
-        val chip_count: String? = intent.getStringExtra("chip_type")
+             val chip_count: String? = intent.getStringExtra("chip_type")
         var selectUrlList:List<Uri> = listOf()
 
         btn_camera.setOnClickListener{
@@ -130,6 +130,7 @@ class WriteBoardActivity : AppCompatActivity() {
         btn_cancel.setOnClickListener {
             finish()
         }
+
 
         // 노성환 / firestore 게시판 컬렉션에 저장
         btn_store.setOnClickListener {
