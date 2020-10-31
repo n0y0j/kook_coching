@@ -97,7 +97,7 @@ class ShareBoardFragment : Fragment() {
                         intent.putExtra("content", obj[position].content)
                         intent.putExtra("time", obj[position].time)
                         intent.putExtra("image", obj[position].image)
-                        startActivity(intent)
+                        startActivityForResult(intent, 0)
                     }
                 })
 
