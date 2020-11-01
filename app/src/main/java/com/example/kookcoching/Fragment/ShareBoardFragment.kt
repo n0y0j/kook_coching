@@ -84,7 +84,7 @@ class ShareBoardFragment : Fragment() {
             // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             activity?.runOnUiThread(Runnable {
 
-                // 2020.11.01 / 문성찬 /
+                // 2020.11.01 / 문성찬 / tag명 검색 시 해당 tag 게시글 표시
 
                 // 2020.11.01 / 문성찬 / tag별로 게시판 글 정렬 구현
                 var sortedPostList : List<getPost> = obj.sortedBy { it.tag }
