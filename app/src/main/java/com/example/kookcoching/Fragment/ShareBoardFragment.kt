@@ -79,18 +79,24 @@ class ShareBoardFragment : Fragment() {
                 Log.d(ContentValues.TAG, "obj : ${i.title} => ${i.content}")
             }
 
+
             // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 연결
             // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             activity?.runOnUiThread(Runnable {
-                val adapter = RecyclerAdapter(postList)
+
+                // 2020.11.01 / 문성찬 /
+
+                // 2020.11.01 / 문성찬 / tag별로 게시판 글 정렬 구현
+                var sortedPostList : List<getPost> = obj.sortedBy { it.tag }
+                var adapter = RecyclerAdapter(sortedPostList)
 
                 // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 시 인텐트로 액티비티 넘김
                 adapter.setItemClickListener(object : RecyclerAdapter.itemClickListener{
                     override fun onClick(view: View, position: Int) {
                         // 넘어가는 인텐트 로그캣
-                        Log.d("SSS","인덱스 : ${position}")
-                        Log.d("SSS","title : ${obj[position].title}")
-                        Log.d("SSS","content : ${obj[position].content}")
+                        Log.d("check","인덱스 : ${position}")
+                        Log.d("check","title : ${obj[position].title}")
+                        Log.d("check","content : ${obj[position].content}")
 
                         val intent = Intent(context, PostViewActivity::class.java)
                         intent.putExtra("title", obj[position].title)
