@@ -5,6 +5,8 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -29,6 +31,7 @@ import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class WriteBoardActivity : AppCompatActivity() {
 
@@ -49,7 +52,7 @@ class WriteBoardActivity : AppCompatActivity() {
         val share_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
 
         var intent: Intent = getIntent()
-             val chip_count: String? = intent.getStringExtra("chip_type")
+        val chip_count: String? = intent.getStringExtra("chip_type")
         var selectUrlList:List<Uri> = listOf()
 
         btn_camera.setOnClickListener{
@@ -121,9 +124,8 @@ class WriteBoardActivity : AppCompatActivity() {
         chipGroup.setOnCheckedChangeListener{ group, chech_pos: Int ->
 
             val chip:Chip? = findViewById(chech_pos)
-            tag = chip?.text.toString()
-            Log.d("asd", tag)
 
+            tag = chip?.text.toString()
         }
 
 
@@ -150,7 +152,7 @@ class WriteBoardActivity : AppCompatActivity() {
 
             scope.launch {
                 val job = launch {
-                    selectUrlList.forEach { item ->
+                    for ( item in selectUrlList ) {
                         val temp = item.toString().split("/")
                         val name = temp[temp.size - 1]
 
@@ -165,16 +167,20 @@ class WriteBoardActivity : AppCompatActivity() {
                                     downloadUri.add(task.toString())
                                 }
                             }
-                        }
+                        }.await()
                     }
-                    Thread.sleep(2000L)
                 }
 
                 job.join()
-                // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
-                fbFirestore?.collection("share_post")?.document(id)
-                    ?.set(Post(title.text.toString(), content.text.toString(), downloadUri, tag))
-                finish()
+
+                val handler = Handler(Looper.getMainLooper())
+
+                handler.postDelayed(Runnable {
+                    // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
+                    fbFirestore?.collection("share_post")?.document(id)
+                        ?.set(Post(title.text.toString(), content.text.toString(), downloadUri, tag))
+                    finish()
+                }, 500)
             }
             Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
         }

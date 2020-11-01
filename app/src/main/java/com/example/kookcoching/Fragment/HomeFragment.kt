@@ -3,6 +3,8 @@ package com.example.kookcoching.Fragment
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+//        2020.11.01 / 노용준 / TIOBE 사이트 웹 크롤링
 //        웹을 크롤링하기 위해 코루틴을 사용
 //        Why? 웹을 파싱해 정보를 받아오는 동안 코드가 멈추면 안되기때문
 //        코드를 비동기로 작성하지 않을 시 network 에러 발생
@@ -44,13 +50,19 @@ class HomeFragment : Fragment() {
         scope.launch {
             //  async, 즉 비동기로 실행된 코드의 결과를 Deferred 객체에 저장
             //  deferred 객체는 받고자하는 return 타입을 지정할 수 있음
-            val deferred : Deferred<ArrayList<String>> = async {
+            val deferred : Deferred<Elements> = async {
                 var url = "https://www.tiobe.com/tiobe-index/"
                 // Jsoup 라이브러리를 활용한 크롤링, timeout 코드는 최대 3초까지 기다리겠다는 의미
                 var doc = Jsoup.connect(url).timeout(1000 * 3).get()
                 // html 태그의 table -> tbody -> tr의 정보를 받아옴
                 val elements : Elements = doc.select("table tbody tr")
 
+                // return 하는 부분
+                elements
+            }
+
+            val job : Job = async {
+                val elements = deferred.await();
                 // 1~10등 까지의 정보만을 파싱함
                 for (i in 0..9) {
                     // 위 Elements 객체에서 td 태그의 정보들만 가져옴
@@ -59,46 +71,43 @@ class HomeFragment : Fragment() {
                     val item = item_temp.replace("  ", " ")
                     items.add(item)
                 }
-                // return 하는 부분
-                items
             }
+
+            job.join()
+
+            // Main Thread 이외의 Thread에서 UI를 바꾸기 위함
+            activity?.runOnUiThread(Runnable {
+                slider_viewPager = view.findViewById(R.id.viewpager_slider) as ViewPager
+                slot_viewPager = view.findViewById(R.id.viewpager_slot) as ViewPager
+
+                // items List를 인자로 보냄
+                val adapter = HomePagerAdapter(context, items)
+                val slot_adapter = HomeSlotAdapter(context)
+
+                slider_viewPager.adapter = adapter
+                slot_viewPager.adapter = slot_adapter
+
+                updatePage(slider_viewPager)
+
+                slider_viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+                    override fun onPageScrollStateChanged(state: Int) {
+                    }
+
+                    override fun onPageScrolled(
+                        position: Int,
+                        positionOffset: Float,
+                        positionOffsetPixels: Int
+                    ) {
+                    }
+
+                    override fun onPageSelected(position: Int) {
+                        currentPage = position
+                    }
+
+                })
+            })
         }
 
-        // items ArrayList가 값을 저장할 수 있게 기다리는 부분
-        // 차후, 앱의 개발을 위해 수정이 필요한 부분
-        Thread.sleep(3000L)
-
-
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        slider_viewPager = view.findViewById(R.id.viewpager_slider) as ViewPager
-        slot_viewPager = view.findViewById(R.id.viewpager_slot) as ViewPager
-        println(items)
-
-        // items List를 인자로 보냄
-        val adapter = HomePagerAdapter(context, items)
-        val slot_adapter = HomeSlotAdapter(context)
-
-        slider_viewPager.adapter = adapter
-        slot_viewPager.adapter = slot_adapter
-
-        updatePage(slider_viewPager)
-
-        slider_viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                currentPage = position
-            }
-
-        })
         return view
     }
 

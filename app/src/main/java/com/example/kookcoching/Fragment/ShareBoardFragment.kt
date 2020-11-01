@@ -22,8 +22,10 @@ import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_share_board.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class ShareBoardFragment : Fragment() {
 
@@ -55,27 +57,36 @@ class ShareBoardFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
-            val deferred : Deferred<ArrayList<getPost>> = async {
+            val deferred : Deferred<QuerySnapshot?> = async {
+                var documentDB : QuerySnapshot? = null
                 var docRef = firestore!!.collection("share_post").get()
                     .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            var title : String = document.get("title").toString()
-                            var content : String = document.get("content").toString()
-                            var time : Long = document.id.toLong()
-                            var image : ArrayList<String> = document.get("image") as ArrayList<String>
-                            var tag : String = document.get("tag").toString()
-                            var post = getPost(title, content, time, image, tag);
-                            postList.add(post)
-                        }
-                    }
+                        documentDB = documents
+                    }.await()
 
-                Thread.sleep(3000L)
-                postList
+                documentDB
             }
 
-            val obj : ArrayList<getPost> = deferred.await();
+            val job : Job = async {
 
-            for ( i in obj) {
+                val documents : QuerySnapshot? = deferred.await()
+
+                if (documents != null) {
+                    for (document in documents) {
+                        var title : String = document.get("title").toString()
+                        var content : String = document.get("content").toString()
+                        var time : Long = document.id.toLong()
+                        var image : ArrayList<String> = document.get("image") as ArrayList<String>
+                        var tag : String = document.get("tag").toString()
+                        var post = getPost(title, content, time, image, tag);
+                        postList.add(post)
+                    }
+                }
+            }
+
+            job.join()
+
+            for ( i in postList) {
                 Log.d(ContentValues.TAG, "obj : ${i.title} => ${i.content}")
             }
 
@@ -87,7 +98,7 @@ class ShareBoardFragment : Fragment() {
                 // 2020.11.01 / 문성찬 / tag명 검색 시 해당 tag 게시글 표시
 
                 // 2020.11.01 / 문성찬 / tag별로 게시판 글 정렬 구현
-                var sortedPostList : List<getPost> = obj.sortedBy { it.tag }
+                var sortedPostList : List<getPost> = postList.sortedBy { it.tag }
                 var adapter = RecyclerAdapter(sortedPostList)
 
                 // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 시 인텐트로 액티비티 넘김
@@ -95,22 +106,22 @@ class ShareBoardFragment : Fragment() {
                     override fun onClick(view: View, position: Int) {
                         // 넘어가는 인텐트 로그캣
                         Log.d("check","인덱스 : ${position}")
-                        Log.d("check","title : ${obj[position].title}")
-                        Log.d("check","content : ${obj[position].content}")
+                        Log.d("check","title : ${postList[position].title}")
+                        Log.d("check","content : ${postList[position].content}")
 
                         val intent = Intent(context, PostViewActivity::class.java)
-                        intent.putExtra("title", obj[position].title)
-                        intent.putExtra("content", obj[position].content)
-                        intent.putExtra("time", obj[position].time)
-                        intent.putExtra("image", obj[position].image)
+                        intent.putExtra("title", postList[position].title)
+                        intent.putExtra("content", postList[position].content)
+                        intent.putExtra("time", postList[position].time)
+                        intent.putExtra("image", postList[position].image)
                         startActivityForResult(intent, 0)
                     }
                 })
 
                 rv_post.adapter = adapter
-                postList = arrayListOf()
             })
         }
+        postList = arrayListOf()
         return view
     }
 

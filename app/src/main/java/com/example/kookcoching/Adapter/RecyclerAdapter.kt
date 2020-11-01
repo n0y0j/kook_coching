@@ -55,7 +55,9 @@ class RecyclerAdapter(val itemList: List<getPost>) : RecyclerView.Adapter<Recycl
         val title = itemView?.findViewById<TextView>(R.id.cardView_title)
         val content = itemView?.findViewById<TextView>(R.id.cardView_content)
 
+
         fun bind (post: getPost, num: Int){
+
             tag?.text = "[" + post.tag + "]"
             title?.text = post.title
             content?.text = post.content
