@@ -41,6 +41,7 @@ class PostViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_viewpost)
 
+        // 2020.10.30 / 노성환 / 툴바에 메뉴버튼을 누르기 위함
         var toolbar: Toolbar = findViewById(R.id.toolbar)
         toolbar.setTitle("")
         setSupportActionBar(toolbar)
@@ -197,14 +198,18 @@ class PostViewActivity : AppCompatActivity() {
             }
             // 게시글 수정
             R.id.remake_post -> {
-                /*val intent = Intent(this, WriteBoardActivity::class.java)
+                val intent = Intent(this, WriteBoardActivity::class.java)
                 // 기존의 제목, 내용 전달
                 intent.putExtra("before_title", before_title)
                 intent.putExtra("before_content", before_content)
                 intent.putExtra("before_time", before_time)
-                startActivity(intent)*/
+                intent.putExtra("chip_type", "share")
+                intent.putExtra("check", "update")
+                startActivityForResult(intent, 0)
+                finish()
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
 }
