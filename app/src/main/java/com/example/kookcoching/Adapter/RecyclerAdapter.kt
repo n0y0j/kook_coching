@@ -9,7 +9,7 @@ import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
 
 // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 기능
-class RecyclerAdapter(val itemList: List<getPost>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
+class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
 
     // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 이벤트 구현
     // 데어터를 저장할 아이템 리스트

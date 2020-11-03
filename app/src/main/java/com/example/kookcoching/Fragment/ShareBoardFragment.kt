@@ -1,6 +1,7 @@
 package com.example.kookcoching.Fragment
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,8 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.get
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_share_board.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.tasks.await
 
 class ShareBoardFragment : Fragment() {
@@ -40,7 +42,19 @@ class ShareBoardFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_share_board, container, false)
         val btn_move = view!!.findViewById(R.id.btn_moveToBoard) as Button
         val rv_post = view!!.findViewById(R.id.rv_post) as RecyclerView
+        val btn_search = view!!.findViewById(R.id.btn_search) as Button
+        val et_search = view!!.findViewById(R.id.et_search) as EditText
+        val spinner = view!!.findViewById(R.id.share_spinner) as Spinner
         // Inflate the layout for this fragment
+
+        // 2020.11.02 / 문성찬 / spinner 어댑터 설정
+        var selectedTag : String = ""
+        val items = resources.getStringArray(R.array.share_board)
+        spinner.adapter = ArrayAdapter(
+            activity as Context,
+            R.layout.support_simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.share_board)
+        )
 
         btn_move.setOnClickListener {
             activity?.let {
@@ -91,16 +105,76 @@ class ShareBoardFragment : Fragment() {
                 Log.d(ContentValues.TAG, "obj : ${i.title} => ${i.content}")
             }
 
-
             // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 연결
             // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             activity?.runOnUiThread(Runnable {
 
-                // 2020.11.01 / 문성찬 / tag명 검색 시 해당 tag 게시글 표시
+                // 2020.11.02 / 문성찬 / spinner를 이용한 tag별로 게시판 글 표시 구현
+                spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        var adapter = RecyclerAdapter(postList)
+                        rv_post.adapter = adapter
+                    }
 
-                // 2020.11.01 / 문성찬 / tag별로 게시판 글 정렬 구현
-                var sortedPostList : List<getPost> = postList.sortedBy { it.tag }
-                var adapter = RecyclerAdapter(sortedPostList)
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                        var selectedPostList: ArrayList<getPost> = arrayListOf()
+
+                        if(items[position] != "전체"){
+                            for(i in postList){
+                                if(i.tag == items[position]){
+                                    selectedPostList.add(i)
+                                }
+                            }
+                        }else{
+                            selectedPostList = postList
+                        }
+
+                        var adapter = RecyclerAdapter(selectedPostList)
+                        rv_post.adapter = adapter
+                    }
+                }
+
+                // 2020.11.02 / 문성찬 / 검색 기능 구현
+                btn_search.setOnClickListener {
+                    val searchedString : String = et_search.text.toString()
+                    var selectedPostList: ArrayList<getPost> = arrayListOf()
+                    val selectedTag = spinner.selectedItem
+                    Log.d("check","현재 spinner 값 : ${selectedTag}")
+
+                    if(searchedString == ""){
+                        if(selectedTag != "전체"){
+                            for(i in postList){
+                                if(i.tag == selectedTag){
+                                    selectedPostList.add(i)
+                                }
+                            }
+                        }else{
+                            selectedPostList = postList
+                        }
+                    }else{
+                        if(selectedTag != "전체"){
+                            for(i in postList){
+                                if(i.tag == selectedTag && i.title.contains(searchedString)){
+                                    selectedPostList.add(i)
+                                }
+                            }
+                        }else{
+                            for(i in postList){
+                                if(i.title.contains(searchedString)){
+                                    selectedPostList.add(i)
+                                }
+                            }
+                        }
+                    }
+                    if(selectedPostList.size == 0){
+                        Toast.makeText(activity,"찾으시는 ${searchedString}이(가) 없습니다.", Toast.LENGTH_LONG).show()
+                    }
+
+                    var adapter = RecyclerAdapter(selectedPostList)
+                    rv_post.adapter = adapter
+                }
+
+                var adapter = RecyclerAdapter(postList)
 
                 // 2020.10.28 / 문성찬 / 리사이클뷰 클릭 시 인텐트로 액티비티 넘김
                 adapter.setItemClickListener(object : RecyclerAdapter.itemClickListener{
