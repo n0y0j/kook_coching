@@ -15,8 +15,8 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Fragment.Share.WriteBoardActivity"></activity>
-        <activity android:name=".Fragment.Share.PostViewActivity"></activity>
+        <activity android:name=".Fragment.Share.WriteBoardActivity"/>
+        <activity android:name=".Fragment.Share.PostViewActivity"/>
         <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
     </application>
 
