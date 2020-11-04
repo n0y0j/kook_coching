@@ -12,6 +12,14 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#2f2f7e"
+            android:src="@drawable/back_button"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,6 +27,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:layout_gravity="center"/>
+
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -29,34 +38,35 @@
         android:layout_marginTop="50dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:layout_marginLeft="30dp"
-            android:text="ID"/>
-
-        <EditText
-            android:id="@+id/login_id"
-            android:hint="ID를 입력하세요"
-            android:layout_gravity="center"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350dp"
-            android:layout_height="50dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp"
-            android:text="PASSWORD"/>
+            app:passwordToggleEnabled="true">
 
-        <EditText
-            android:id="@+id/login_password"
-            android:hint="비밀번호를 입력하세요"
-            android:layout_gravity="center"
+            <EditText
+                android:id="@+id/login_id"
+                android:hint="ID를 입력하세요"
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="50dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350dp"
-            android:layout_height="50dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/login_password"
+                android:hint="비밀번호를 입력하세요"
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="50dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/login_btn"
