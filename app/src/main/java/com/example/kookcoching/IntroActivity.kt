@@ -17,7 +17,7 @@ class IntroActivity : AppCompatActivity() {
     private fun startLoading() {
         val handler = Handler()
         handler.postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 2000)

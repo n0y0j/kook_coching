@@ -12,14 +12,6 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="#2f2f7e"
-            android:src="@drawable/back_button"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,8 +37,8 @@
             app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/login_id"
-                android:hint="ID를 입력하세요"
+                android:id="@+id/login_email"
+                android:hint="Email을 입력하세요"
                 android:layout_gravity="center"
                 android:layout_width="350dp"
                 android:layout_height="50dp"/>
@@ -78,6 +70,24 @@
             android:textColor="#FFFFFF"
             android:text="로그인"/>
 
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="아직 국코칭 회원이 아니신가요?"/>
+
+        <Button
+            android:id="@+id/regi_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#2f2f7e"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:text="가입하기"/>
+S
 
     </LinearLayout>
 
