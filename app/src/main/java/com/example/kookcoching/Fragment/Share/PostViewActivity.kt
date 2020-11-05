@@ -23,6 +23,7 @@ import com.example.kookcoching.Adapter.RecyclerAdapter
 import com.example.kookcoching.Fragment.ShareBoardFragment
 import com.example.kookcoching.R
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.share_viewpost.*
@@ -36,6 +37,7 @@ class PostViewActivity : AppCompatActivity() {
 
     var firestore: FirebaseFirestore? = null
     var commentList = arrayListOf<getComment>() // 댓글을 받아올 리스트
+    lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,6 @@ class PostViewActivity : AppCompatActivity() {
         var inIntent: Intent = getIntent()
         title.setText(inIntent.getStringExtra("title"))
         content.setText(inIntent.getStringExtra("content"))
-
 
         // 2020.10.28 / 노용준 / epoch time to date
         val itemDate = Date(inIntent.getLongExtra("time", 0))
@@ -155,9 +156,15 @@ class PostViewActivity : AppCompatActivity() {
 
     }
 
-    // 2020.10.30 / 노성환 / 툴바에 메뉴 추가
+    // 2020.10.30 / 노성환 / 툴바에 메뉴 추가 + 해당 작성자만 편집가능하게 함(2020.11.05)
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.option_menu, menu)
+        firebaseAuth = FirebaseAuth.getInstance()
+        var author = intent.getStringExtra("author")
+        Log.d("AUTHOR", author)
+        // 현재 접속한 uid와 게시물의 uid가 같은지 확인하고, 같을 때만 메뉴가 나올 수 있도록 구현
+        if (author.equals(firebaseAuth.currentUser?.uid.toString())) {
+            menuInflater.inflate(R.menu.option_menu, menu)
+        }
         return true
     }
 

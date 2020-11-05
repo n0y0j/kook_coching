@@ -22,6 +22,7 @@ import com.example.kookcoching.Fragment.Share.WriteBoardActivity
 import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_share_board.*
@@ -33,12 +34,14 @@ class ShareBoardFragment : Fragment() {
 
     var firestore : FirebaseFirestore?= null
     var postList : ArrayList<getPost> = arrayListOf()
+    lateinit var firebaseAuth : FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         firestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
         val view = inflater.inflate(R.layout.fragment_share_board, container, false)
         val btn_move = view!!.findViewById(R.id.btn_moveToBoard) as Button
         val rv_post = view!!.findViewById(R.id.rv_post) as RecyclerView
@@ -88,12 +91,13 @@ class ShareBoardFragment : Fragment() {
 
                 if (documents != null) {
                     for (document in documents) {
+                        var author: String = document.get("author").toString()
                         var title : String = document.get("title").toString()
                         var content : String = document.get("content").toString()
                         var time : Long = document.id.toLong()
                         var image : ArrayList<String> = document.get("image") as ArrayList<String>
                         var tag : String = document.get("tag").toString()
-                        var post = getPost(title, content, time, image, tag);
+                        var post = getPost(title, content, time, image, tag, author);
                         postList.add(post)
                     }
                 }
@@ -189,6 +193,7 @@ class ShareBoardFragment : Fragment() {
                         intent.putExtra("content", postList[position].content)
                         intent.putExtra("time", postList[position].time)
                         intent.putExtra("image", postList[position].image)
+                        intent.putExtra("author", postList[position].author)
                         startActivityForResult(intent, 0)
                     }
                 })

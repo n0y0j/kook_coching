@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -38,11 +39,13 @@ class WriteBoardActivity : AppCompatActivity() {
 
     private var mStorageRef: StorageReference? = null
     private var fbFirestore: FirebaseFirestore? = null
+    lateinit var firebaseAuth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_board)
 
+        firebaseAuth = FirebaseAuth.getInstance()
         val btn_cancel = findViewById(R.id.btn_cancel) as Button
         val btn_store = findViewById(R.id.btn_store) as Button
         val btn_camera = findViewById(R.id.cameta_btn) as ImageButton
@@ -216,7 +219,8 @@ class WriteBoardActivity : AppCompatActivity() {
                                     title.text.toString(),
                                     content.text.toString(),
                                     downloadUri,
-                                    tag
+                                    tag,
+                                    firebaseAuth.currentUser?.uid.toString()
                                 )
                             )
                         finish()
