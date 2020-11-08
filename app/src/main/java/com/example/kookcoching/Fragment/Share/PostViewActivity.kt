@@ -2,30 +2,18 @@ package com.example.kookcoching.Fragment.Share
 
 import androidx.appcompat.widget.Toolbar
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.kookcoching.Adapter.CommentRecyclerAdapter
-import com.example.kookcoching.Adapter.RecyclerAdapter
-import com.example.kookcoching.Fragment.ShareBoardFragment
 import com.example.kookcoching.R
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.share_viewpost.*
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -94,6 +82,7 @@ class PostViewActivity : AppCompatActivity() {
 
         // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
         val scope = CoroutineScope(Dispatchers.Default)
+        var post_time = ""
 
         scope.launch {
             val deferred: Deferred<ArrayList<getComment>> = async {
@@ -104,11 +93,13 @@ class PostViewActivity : AppCompatActivity() {
                         for (document in documents) {
                             var comment: String = document.get("comment").toString()
                             var time: Long = document.id.toLong()
-                            var write_comment = getComment(comment, time)
+                            var author: String = document.get("author").toString()
+                            var write_comment = getComment(comment, time, author)
                             commentList.add(write_comment)
                         }
                     }
-                Thread.sleep(3000L)
+                post_time = inIntent.getLongExtra("time", 0).toString()
+                Thread.sleep(2000L)
                 commentList
             }
             val obj: ArrayList<getComment> = deferred.await()
@@ -121,15 +112,15 @@ class PostViewActivity : AppCompatActivity() {
             this@PostViewActivity.runOnUiThread(Runnable {
 
                 // 리사이클러뷰에 연결
-                val adapter = CommentRecyclerAdapter(commentList)
+                val adapter = CommentRecyclerAdapter(commentList, post_time, intent) // 해당 게시물의 작성 시간을 얻어오기 위함
                 rv_comment.adapter = adapter
 
                 val layoutManager = LinearLayoutManager(this@PostViewActivity)
                 rv_comment.layoutManager = layoutManager
                 rv_comment.setHasFixedSize(true)
+
             })
         }
-
 
         // "< 공유게시판" 버튼 클릭 시 동작
         btn_return.setOnClickListener {
@@ -146,7 +137,7 @@ class PostViewActivity : AppCompatActivity() {
                 ?.document(inIntent.getLongExtra("time", 0).toString())
                 // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
                 .collection("share_post_comment").document(System.currentTimeMillis().toString())
-                ?.set(Comment(comment.text.toString()))
+                ?.set(Comment(comment.text.toString(), firebaseAuth.currentUser?.uid.toString()))
             comment.setText("")
             Toast.makeText(this, "댓글이 입력되었습니다.", Toast.LENGTH_SHORT).show()
             // 2010.10.30 / 노성환 / 댓글 입력 후 해당 게시물 새로고침
@@ -218,5 +209,6 @@ class PostViewActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 
 }
