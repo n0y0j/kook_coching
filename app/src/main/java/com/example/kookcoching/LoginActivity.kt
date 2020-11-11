@@ -1,10 +1,10 @@
 package com.example.kookcoching
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -17,7 +17,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var EmailText: EditText
     lateinit var PasswordText: EditText
     lateinit var loginBtn : Button
-    lateinit var regiBtn : Button
+    lateinit var regiBtn : TextView
+    lateinit var passBtn : TextView
     lateinit var firebaseAuth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginBtn = findViewById(R.id.login_btn)
         regiBtn = findViewById(R.id.regi_btn)
+        passBtn = findViewById(R.id.search_btn)
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -49,6 +51,38 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+        }
+
+        // 비밀번호 찾기
+        passBtn.setOnClickListener {
+            val email : EditText = EditText(this);
+
+            val builder : AlertDialog.Builder = AlertDialog.Builder(this);
+            builder.setTitle("비밀번호 찾기");
+            builder.setMessage("이메일을 입력해주세요");
+            builder.setView(email);
+            builder.setPositiveButton("보내기",
+                object: DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(email.text.toString())
+                            .addOnCompleteListener {task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(getApplicationContext(), "재설정 메일을 보냈습니다." ,Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "이메일을 확인해주세요" ,Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                    }
+
+                })
+            builder.setNegativeButton("취소",
+                object: DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                    }
+                });
+            builder.show();
         }
 
 
