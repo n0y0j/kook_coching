@@ -47,10 +47,12 @@ class PostViewActivity : AppCompatActivity() {
         val title = findViewById(R.id.tv_title) as TextView
         val content = findViewById(R.id.tv_content) as TextView
         val time = findViewById(R.id.tv_time) as TextView
+        var nickname = findViewById<TextView>(R.id.tv_nickname)
 
         var inIntent: Intent = getIntent()
         title.setText(inIntent.getStringExtra("title"))
         content.setText(inIntent.getStringExtra("content"))
+        nickname.setText(inIntent.getStringExtra("nickname")) // post에 닉네임 표시
 
         // 2020.10.28 / 노용준 / epoch time to date
         val itemDate = Date(inIntent.getLongExtra("time", 0))
@@ -84,6 +86,8 @@ class PostViewActivity : AppCompatActivity() {
         val scope = CoroutineScope(Dispatchers.Default)
         var post_time = ""
 
+
+
         scope.launch {
             val deferred: Deferred<ArrayList<getComment>> = async {
                 var docRef = firestore!!.collection("share_post")
@@ -94,7 +98,8 @@ class PostViewActivity : AppCompatActivity() {
                             var comment: String = document.get("comment").toString()
                             var time: Long = document.id.toLong()
                             var author: String = document.get("author").toString()
-                            var write_comment = getComment(comment, time, author)
+                            var nickname: String = document.get("nickname").toString()
+                            var write_comment = getComment(comment, time, author, nickname)
                             commentList.add(write_comment)
                         }
                     }
@@ -127,6 +132,15 @@ class PostViewActivity : AppCompatActivity() {
             finish()
         }
 
+        // 2020.11.11 / 노성환 / firestore user컬렉션에서 닉네임 활용(for comment)
+        firebaseAuth = FirebaseAuth.getInstance()
+        var name: String ?= null
+        var docRef = firestore!!.collection("user").document(firebaseAuth.currentUser?.uid.toString())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                name = document.get("name").toString()
+            }
+
         // 2020.10.28 / 노성환 / 댓글 작성 버튼 누르면 firestore의 하위 컬렉션에 저장
         btn_write.setOnClickListener {
             val comment = findViewById<EditText>(R.id.et_comment)
@@ -137,7 +151,7 @@ class PostViewActivity : AppCompatActivity() {
                 ?.document(inIntent.getLongExtra("time", 0).toString())
                 // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
                 .collection("share_post_comment").document(System.currentTimeMillis().toString())
-                ?.set(Comment(comment.text.toString(), firebaseAuth.currentUser?.uid.toString()))
+                ?.set(Comment(comment.text.toString(), firebaseAuth.currentUser?.uid.toString(), name.toString()))
             comment.setText("")
             Toast.makeText(this, "댓글이 입력되었습니다.", Toast.LENGTH_SHORT).show()
             // 2010.10.30 / 노성환 / 댓글 입력 후 해당 게시물 새로고침
