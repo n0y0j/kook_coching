@@ -180,6 +180,14 @@ class WriteBoardActivity : AppCompatActivity() {
 
                 fbFirestore = FirebaseFirestore.getInstance() // firestore 인스턴스 초기화
 
+                // 2020.11.11 / 노성환 / firestore user컬렉션에서 닉네임 활용(for post)
+                var name: String ?= null
+                var docRef = fbFirestore!!.collection("user").document(firebaseAuth.currentUser?.uid.toString())
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        name = document.get("name").toString()
+                    }
+
                 // 2020.10.30 / 노용준 / 선택된 Image를 Firestore에 저장
                 // FireStorage에 저장 후 Image Uri를 파싱해서 Firestore에 저장
                 mStorageRef = FirebaseStorage.getInstance().getReference()
@@ -220,7 +228,8 @@ class WriteBoardActivity : AppCompatActivity() {
                                     content.text.toString(),
                                     downloadUri,
                                     tag,
-                                    firebaseAuth.currentUser?.uid.toString()
+                                    firebaseAuth.currentUser?.uid.toString(),
+                                    name.toString()
                                 )
                             )
                         finish()

@@ -54,11 +54,13 @@ class CommentRecyclerAdapter(
 
         val comment = itemView?.findViewById<TextView>(R.id.tv_comment)
         val commentTime = itemView?.findViewById<TextView>(R.id.tv_commentTime)
+        val commentNickname = itemView?.findViewById<TextView>(R.id.tv_comment_nickname)
         val imageButton = itemView?.findViewById<ImageButton>(R.id.btn_menu)
 
         fun bind(data: getComment, num: Int) {
             firebaseAuth = FirebaseAuth.getInstance()
             comment?.text = data.comment
+            commentNickname?.text = data.nickname // 댓글 닉네임 가져옴
             idx = num
             // 자신 계정이 맞는 경우에만 삭제 버튼이 생기도록 설정
             if (!(commentList[idx].author).equals(firebaseAuth.currentUser?.uid.toString()))
@@ -78,13 +80,11 @@ class CommentRecyclerAdapter(
             showMenu(p0!!)
         }
 
-        // 수정, 삭제 메뉴 보여줌
+        // 삭제 메뉴 보여줌
         fun showMenu(view: View) {
             val popupMenu = PopupMenu(view.context, view)
             popupMenu.inflate(R.menu.comment_menu)
-            popupMenu.setOnMenuItemClickListener(object :
-                android.widget.PopupMenu.OnMenuItemClickListener,
-                PopupMenu.OnMenuItemClickListener {
+            popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                 override fun onMenuItemClick(item: MenuItem?): Boolean {
                     var db = FirebaseFirestore.getInstance()
                     when (item?.itemId) {
