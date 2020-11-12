@@ -68,6 +68,8 @@ class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<R
 
             FirebaseFirestore.getInstance().collection("user").document(post.author).addSnapshotListener { value, error ->
                 writer?.text = value?.get("name").toString()
+                goodCount?.text = arrayOf(value?.get("goodCount")).size.toString()
+                scrapCount?.text = arrayOf(value?.get("scrapCount")).size.toString()
             }
         }
     }
