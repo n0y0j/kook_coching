@@ -57,16 +57,31 @@ class PostViewActivity : AppCompatActivity() {
         content.setText(inIntent.getStringExtra("content"))
         nickname.setText(inIntent.getStringExtra("nickname")) // post에 닉네임 표시
 
+        val goodList = inIntent.getStringArrayListExtra("goodCount") as ArrayList<String>
+        val scrapList = inIntent.getStringArrayListExtra("scrapCount") as ArrayList<String>
+
+        if (goodList.contains(FirebaseAuth.getInstance().currentUser?.uid)) btn_like.setImageResource(R.drawable.filled_heart)
+        if (scrapList.contains(FirebaseAuth.getInstance().currentUser?.uid)) btn_scrap.setImageResource(R.drawable.my_scrap)
+
         // 2020.11.12 / 노용준 / 좋아요 버튼 클릭시
         btn_like.setOnClickListener{
-              Log.d("zzzzzzzzz", "!")
-            var goodList = inIntent.getStringArrayListExtra("goodCount") as ArrayList<String>
 
             if (!goodList.contains(FirebaseAuth.getInstance().currentUser?.uid)) {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
 
                 btn_like.setImageResource(R.drawable.filled_heart)
+            }
+        }
+
+        // 2020.11.12 / 노용준 / 찜 버튼 클릭시
+        btn_scrap.setOnClickListener {
+
+            if (!scrapList.contains(FirebaseAuth.getInstance().currentUser?.uid)) {
+                FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                btn_scrap.setImageResource(R.drawable.my_scrap)
             }
         }
 
