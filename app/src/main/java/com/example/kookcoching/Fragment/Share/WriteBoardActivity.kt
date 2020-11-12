@@ -46,7 +46,7 @@ class WriteBoardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_write_board)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val btn_cancel = findViewById(R.id.btn_cancel) as Button
+        val btn_cancel = findViewById(R.id.btn_cancel) as ImageButton
         val btn_store = findViewById(R.id.btn_store) as Button
         val btn_camera = findViewById(R.id.cameta_btn) as ImageButton
         var et_title = findViewById<EditText>(R.id.et_title)

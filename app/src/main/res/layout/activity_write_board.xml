@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".Fragment.Share.WriteBoardActivity">
 
-
     <androidx.appcompat.widget.Toolbar
 
         android:id="@+id/toolbar"
@@ -16,13 +15,12 @@
         android:layout_height="wrap_content"
         android:background="#2f2f7e">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#2f2f7e"
-            android:text="취소"
-            android:textColor="#FFFFFF" />
+            android:src="@drawable/back_button" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,10 +35,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="저장"
+            android:drawableLeft="@drawable/save"
             android:textColor="#FFFFFF"
             android:backgroundTint="#2f2f7e"
-            android:layout_gravity="end"
-            android:layout_marginRight="10dp" />
+            android:layout_gravity="end" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -79,12 +77,13 @@
             android:id="@+id/cameta_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:backgroundTint="#2f2f7e"
             android:background="@drawable/camera"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="15dp"/>
 
 
     </LinearLayout>
-    
+
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +99,7 @@
             app:singleSelection="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:theme="@style/ThemeOverlay.MaterialComponents"
+            android:theme="@style/Theme.MaterialComponents.Light"
             />
 
     </HorizontalScrollView>
@@ -109,15 +108,14 @@
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
-        android:layout_height="580dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:background="#FFFFFF"
         android:gravity="center_horizontal"
         android:hint=" 내용을 작성하세요."
         android:inputType="textMultiLine"
-        android:textAlignment="textStart"
-        android:scrollbars="vertical" />
-
+        android:scrollbars="vertical"
+        android:textAlignment="textStart" />
 
 
 </LinearLayout>
