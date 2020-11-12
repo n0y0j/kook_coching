@@ -56,7 +56,8 @@
                 android:hint="비밀번호를 입력하세요"
                 android:layout_gravity="center"
                 android:layout_width="350dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#2f2f7e"
+            android:layout_marginTop="15dp"
+            android:background="#2f2f7e"
             android:textColor="#FFFFFF"
             android:text="로그인"/>
 
@@ -75,13 +76,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="-5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="아직 국코칭 회원이 아니신가요?"
-                android:textSize="18dp"/>
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/regi_btn"
@@ -90,7 +92,8 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="#DE383F"
                 android:clickable="true"
-                android:text="가입하기"/>
+                android:text="가입하기"
+                android:textSize="18dp"/>
 
         </LinearLayout>
 
@@ -98,8 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+            android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"

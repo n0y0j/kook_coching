@@ -11,8 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2f2f7e"
-        >
+        android:background="#2f2f7e">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,6 +20,16 @@
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 정보"
+            android:drawableLeft="@drawable/person"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2f2f7e"
+            android:layout_gravity="end" />
 
     </androidx.appcompat.widget.Toolbar>
 

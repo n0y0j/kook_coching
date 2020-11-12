@@ -76,6 +76,7 @@
             <EditText
                 android:id="@+id/register_password"
                 android:hint="비밀번호를 입력하세요"
+                android:inputType="textPassword"
                 android:layout_gravity="center"
                 android:layout_width="350dp"
                 android:layout_height="50dp"/>
@@ -91,6 +92,7 @@
             <EditText
                 android:id="@+id/register_pasword_check"
                 android:hint="비밀번호를 한번 더 입력해주세요"
+                android:inputType="textPassword"
                 android:layout_gravity="center"
                 android:layout_width="350dp"
                 android:layout_height="50dp"/>
@@ -104,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#2f2f7e"
+            android:background="#2f2f7e"
             android:textColor="#FFFFFF"
             android:text="회원가입"/>
 

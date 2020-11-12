@@ -27,6 +27,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".MyPostActivity" />
     </application>
 
 </manifest>

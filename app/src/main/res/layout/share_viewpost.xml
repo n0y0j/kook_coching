@@ -2,27 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#002060"
+        android:background="#2f2f7e"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_returnToShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt; 공유게시판"
-            android:backgroundTint="#2f2f7e"
-            android:textColor="#FFFFFF" />
+            android:src="@drawable/back_button"
+            android:background="#2f2f7e" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,6 +28,7 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/layout_comment">
 
@@ -38,63 +37,88 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_nickname"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="nickname"
-                    android:textStyle="italic"
-                    android:textAlignment="textStart"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="time"
-                    android:textAlignment="textStart"
-                    android:textSize="15dp"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_like"
-                    app:layout_constraintRight_toLeftOf="@id/btn_like"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="2"
+                        android:text="time"
+                        android:gravity="center_vertical"
+                        android:textAlignment="textStart"
+                        android:textSize="15dp"
+                        android:layout_marginBottom="-15dp"/>
 
-                <Button
-                    android:id="@+id/btn_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="#2f2f7e"
-                    android:text="좋아요"
-                    android:textSize="8dp"
-                    app:layout_constraintRight_toLeftOf="@+id/btn_scrap"
-                    tools:ignore="MissingConstraints" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="5dp">
 
-                <Button
-                    android:id="@+id/btn_scrap"
-                    android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text = "작성자: "/>
+
+                        <TextView
+                            android:id="@+id/tv_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="2"
+                            android:text="time"
+                            android:gravity="center_vertical"
+                            android:textAlignment="textStart"
+                            android:textSize="15dp"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="#2f2f7e"
-                    android:text="스크랩"
-                    android:textSize="8dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:ignore="MissingConstraints" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:layout_marginRight="10dp">
+
+                    <ImageButton
+                        android:id="@+id/btn_like"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/empty_heart"
+                        android:background="#FFFFFF"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_scrap"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:background="#FFFFFF"
+                        android:src="@drawable/empty_star" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -109,7 +133,7 @@
                 <TextView
                     android:id="@+id/tv_content"
                     android:layout_width="match_parent"
-                    android:layout_height="137dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:text="내용"
@@ -128,11 +152,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/scrollview"/>
 
 
         </LinearLayout>
     </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/layout_comment"
@@ -155,7 +181,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="3"
-            android:backgroundTint="#2f2f7e"
+            android:textColor="#FFFFFF"
+            android:background="#2f2f7e"
             android:text="작성" />
     </LinearLayout>
 

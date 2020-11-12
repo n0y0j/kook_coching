@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Fragment.Share.getPost
 import com.example.kookcoching.R
+import com.google.firebase.firestore.FirebaseFirestore
+import org.w3c.dom.Text
 
 // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 기능
 class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
@@ -54,13 +56,21 @@ class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<R
         val tag = itemView?.findViewById<TextView>(R.id.cardView_tag)
         val title = itemView?.findViewById<TextView>(R.id.cardView_title)
         val content = itemView?.findViewById<TextView>(R.id.cardView_content)
-
+        val writer = itemView?.findViewById<TextView>(R.id.cardView_writer)
+        val goodCount = itemView?.findViewById<TextView>(R.id.good_count)
+        val scrapCount = itemView?.findViewById<TextView>(R.id.scrap_count)
 
         fun bind (post: getPost, num: Int){
 
             tag?.text = "[" + post.tag + "]"
             title?.text = post.title
             content?.text = post.content
+
+            FirebaseFirestore.getInstance().collection("user").document(post.author).addSnapshotListener { value, error ->
+                writer?.text = value?.get("name").toString()
+                goodCount?.text = arrayOf(value?.get("goodCount")).size.toString()
+                scrapCount?.text = arrayOf(value?.get("scrapCount")).size.toString()
+            }
         }
     }
 }

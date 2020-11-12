@@ -30,7 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:backgroundTint="#2f2f7e"
-            android:text="게시글 작성"
+            android:drawableLeft="@drawable/edit"
+            android:text=" 글 작성"
+            android:textSize="15dp"
             android:textColor="#FFFFFF" />
 
     </androidx.appcompat.widget.Toolbar>
@@ -48,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/share_board"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +77,8 @@
             android:layout_gravity="center"
             android:layout_weight="4"
             android:text="검색"
-            android:backgroundTint="#2f2f7e"/>
+            android:textColor="#FFFFFF"
+            android:background="#2f2f7e"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

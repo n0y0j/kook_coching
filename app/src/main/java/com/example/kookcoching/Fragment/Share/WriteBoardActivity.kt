@@ -46,7 +46,7 @@ class WriteBoardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_write_board)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val btn_cancel = findViewById(R.id.btn_cancel) as Button
+        val btn_cancel = findViewById(R.id.btn_cancel) as ImageButton
         val btn_store = findViewById(R.id.btn_store) as Button
         val btn_camera = findViewById(R.id.cameta_btn) as ImageButton
         var et_title = findViewById<EditText>(R.id.et_title)
@@ -128,17 +128,19 @@ class WriteBoardActivity : AppCompatActivity() {
                 for (name in share_chip_string) {
                     var chip = Chip(this)
                     chip.setText(name)
+                    chip.isClickable = true
                     chip.isCheckable = true
                     chipGroup.addView(chip)
 
                 }
         }
 
-        chipGroup.setOnCheckedChangeListener { group, chech_pos: Int ->
+        chipGroup.setOnCheckedChangeListener { group, check_pos: Int ->
 
-            val chip: Chip? = findViewById(chech_pos)
+            val chip: Chip? = findViewById(check_pos)
 
             tag = chip?.text.toString()
+            Log.d("zzzzzzzzzzzzz", tag)
         }
 
 
@@ -229,7 +231,9 @@ class WriteBoardActivity : AppCompatActivity() {
                                     downloadUri,
                                     tag,
                                     firebaseAuth.currentUser?.uid.toString(),
-                                    name.toString()
+                                    name.toString(),
+                                    arrayListOf(),
+                                    arrayListOf()
                                 )
                             )
                         finish()

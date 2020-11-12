@@ -98,7 +98,9 @@ class ShareBoardFragment : Fragment() {
                         var time : Long = document.id.toLong()
                         var image : ArrayList<String> = document.get("image") as ArrayList<String>
                         var tag : String = document.get("tag").toString()
-                        var post = getPost(title, content, time, image, tag, author, nickname);
+                        var good : ArrayList<String> = document.get("goodCount") as ArrayList<String>
+                        var scrap : ArrayList<String> = document.get("scrapCount") as ArrayList<String>
+                        var post = getPost(title, content, time, image, tag, author, nickname, good, scrap);
                         postList.add(post)
                     }
                 }
@@ -196,6 +198,9 @@ class ShareBoardFragment : Fragment() {
                         intent.putExtra("image", postList[position].image)
                         intent.putExtra("author", postList[position].author)
                         intent.putExtra("nickname", postList[position].nickname)
+                        intent.putExtra("goodCount", postList[position].goodCount)
+                        intent.putExtra("scrapCount", postList[position].scrapCount)
+
                         startActivityForResult(intent, 0)
                     }
                 })
