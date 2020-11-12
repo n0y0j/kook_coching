@@ -82,7 +82,7 @@
                         android:src="@drawable/item_good" />
 
                     <TextView
-                        android:id="@+id/start_count"
+                        android:id="@+id/good_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="16"/>
@@ -94,6 +94,7 @@
                         android:src="@drawable/my_scrap" />
 
                     <TextView
+                        android:id="@+id/scrap_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="16"/>
