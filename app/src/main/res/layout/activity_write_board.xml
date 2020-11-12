@@ -99,7 +99,7 @@
             app:singleSelection="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:theme="@style/Theme.MaterialComponents.Light"
+            android:theme="@style/ThemeOverlay.MaterialComponents"
             />
 
     </HorizontalScrollView>

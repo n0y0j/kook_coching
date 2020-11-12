@@ -37,7 +37,7 @@ class PostViewActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         firestore = FirebaseFirestore.getInstance()
 
-        val btn_return = findViewById(R.id.btn_returnToShare) as Button
+        val btn_return = findViewById(R.id.btn_returnToShare) as ImageButton
         val btn_like = findViewById(R.id.btn_like) as Button
         val btn_scrap = findViewById(R.id.btn_scrap) as Button
 

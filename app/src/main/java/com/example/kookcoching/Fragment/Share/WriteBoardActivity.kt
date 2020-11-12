@@ -128,17 +128,19 @@ class WriteBoardActivity : AppCompatActivity() {
                 for (name in share_chip_string) {
                     var chip = Chip(this)
                     chip.setText(name)
+                    chip.isClickable = true
                     chip.isCheckable = true
                     chipGroup.addView(chip)
 
                 }
         }
 
-        chipGroup.setOnCheckedChangeListener { group, chech_pos: Int ->
+        chipGroup.setOnCheckedChangeListener { group, check_pos: Int ->
 
-            val chip: Chip? = findViewById(chech_pos)
+            val chip: Chip? = findViewById(check_pos)
 
             tag = chip?.text.toString()
+            Log.d("zzzzzzzzzzzzz", tag)
         }
 
 
