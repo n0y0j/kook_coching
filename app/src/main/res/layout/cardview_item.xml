@@ -79,7 +79,7 @@
                         android:id="@+id/start"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/item_good" />
+                        android:src="@drawable/filled_heart" />
 
                     <TextView
                         android:id="@+id/good_count"

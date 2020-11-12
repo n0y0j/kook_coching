@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.kookcoching.Adapter.CommentRecyclerAdapter
 import com.example.kookcoching.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.share_viewpost.*
 import kotlinx.coroutines.*
@@ -39,8 +40,9 @@ class PostViewActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
         val btn_return = findViewById(R.id.btn_returnToShare) as ImageButton
-        val btn_like = findViewById(R.id.btn_like) as Button
-        val btn_scrap = findViewById(R.id.btn_scrap) as Button
+        val btn_like = findViewById(R.id.btn_like) as ImageButton
+        val btn_scrap = findViewById(R.id.btn_scrap) as ImageButton
+
 
         // 댓글 작성 버튼
         val btn_write = findViewById(R.id.btn_commentWrite) as Button
@@ -54,6 +56,19 @@ class PostViewActivity : AppCompatActivity() {
         title.setText(inIntent.getStringExtra("title"))
         content.setText(inIntent.getStringExtra("content"))
         nickname.setText(inIntent.getStringExtra("nickname")) // post에 닉네임 표시
+
+        // 2020.11.12 / 노용준 / 좋아요 버튼 클릭시
+        btn_like.setOnClickListener{
+              Log.d("zzzzzzzzz", "!")
+            var goodList = inIntent.getStringArrayListExtra("goodCount") as ArrayList<String>
+
+            if (!goodList.contains(FirebaseAuth.getInstance().currentUser?.uid)) {
+                FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                btn_like.setImageResource(R.drawable.filled_heart)
+            }
+        }
 
         // 2020.10.28 / 노용준 / epoch time to date
         val itemDate = Date(inIntent.getLongExtra("time", 0))
@@ -160,6 +175,7 @@ class PostViewActivity : AppCompatActivity() {
             startActivity(getIntent())
         }
 
+
     }
 
     // 2020.10.30 / 노성환 / 툴바에 메뉴 추가 + 해당 작성자만 편집가능하게 함(2020.11.05)
@@ -224,6 +240,8 @@ class PostViewActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 
 
 }

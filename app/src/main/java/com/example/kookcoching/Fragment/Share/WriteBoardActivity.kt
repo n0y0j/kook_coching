@@ -231,7 +231,9 @@ class WriteBoardActivity : AppCompatActivity() {
                                     downloadUri,
                                     tag,
                                     firebaseAuth.currentUser?.uid.toString(),
-                                    name.toString()
+                                    name.toString(),
+                                    arrayListOf(),
+                                    arrayListOf()
                                 )
                             )
                         finish()

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -95,26 +96,19 @@
                     android:gravity="end"
                     android:layout_marginRight="10dp">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/btn_like"
                         android:layout_width="70dp"
                         android:layout_height="40dp"
-                        android:background="#2f2f7e"
-                        android:drawableLeft="@drawable/good"
-                        android:text="좋아요"
-                        android:textSize="12dp"
-                        android:textColor="#FFFFFF"/>
+                        android:src="@drawable/empty_heart"
+                        android:background="#FFFFFF"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/btn_scrap"
                         android:layout_width="70dp"
                         android:layout_height="40dp"
-                        android:background="#2f2f7e"
-                        android:textColor="#FFFFFF"
-                        android:drawableLeft="@drawable/star"
-                        android:layout_marginLeft="5dp"
-                        android:text="찜"
-                        android:textSize="12dp"/>
+                        android:background="#FFFFFF"
+                        android:src="@drawable/empty_star" />
 
                 </LinearLayout>
 
