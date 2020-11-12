@@ -38,12 +38,14 @@ class InfoActivity : AppCompatActivity() {
         myWrite.setOnClickListener {
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 쓴 글")
+            intent.putExtra("kind", "goodCount")
             startActivity(intent)
         }
         
         myScrap.setOnClickListener {
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 찜한 글")
+            intent.putExtra("kind", "scrapCount")
             startActivity(intent)
         }
 
