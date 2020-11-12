@@ -1,17 +1,18 @@
 package com.example.kookcoching.Fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.kookcoching.Fragment.Home.HomePagerAdapter
 import com.example.kookcoching.Fragment.Home.TextViewScrolling.HomeSlotAdapter
+import com.example.kookcoching.InfoActivity
 import com.example.kookcoching.R
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
@@ -26,6 +27,7 @@ class HomeFragment : Fragment() {
     // TextView Slot ViewPager
     internal lateinit var slot_viewPager: ViewPager
     var items : ArrayList<String> = arrayListOf()
+    lateinit var myBtn : Button
 
     var currentPage : Int = 0
     lateinit var timer : Timer
@@ -39,6 +41,13 @@ class HomeFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        myBtn = view.findViewById(R.id.btn_my)
+
+        myBtn.setOnClickListener {
+            val intent = Intent(activity, InfoActivity::class.java)
+            startActivity(intent)
+        }
 
 //        2020.11.01 / 노용준 / TIOBE 사이트 웹 크롤링
 //        웹을 크롤링하기 위해 코루틴을 사용
