@@ -76,13 +76,19 @@ class MyPostActivity : AppCompatActivity() {
                         when (intent.getStringExtra("kind")) {
                             "goodCount" -> {
                                 if (good.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
-                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap);
+                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
                                     postList.add(post)
                                 }
                             }
                             "scrapCount" -> {
                                 if (scrap.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
-                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap);
+                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
+                                    postList.add(post)
+                                }
+                            }
+                            "write" -> {
+                                if(author.equals(FirebaseAuth.getInstance().currentUser?.uid)){
+                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
                                     postList.add(post)
                                 }
                             }

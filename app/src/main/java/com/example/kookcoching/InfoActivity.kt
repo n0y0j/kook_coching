@@ -13,8 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 class InfoActivity : AppCompatActivity() {
 
     lateinit var backButton : ImageButton
-    lateinit var myWrite : LinearLayout
+    lateinit var myLike : LinearLayout
     lateinit var myScrap : LinearLayout
+    lateinit var myWrite: LinearLayout
     lateinit var deleteBtn : Button
     lateinit var tv_info_name: TextView
     lateinit var tv_info_mail: TextView
@@ -27,8 +28,9 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_myinfo)
 
         backButton = findViewById(R.id.back_btn)
-        myWrite = findViewById(R.id.my_write_layout)
+        myLike = findViewById(R.id.my_like_layout)
         myScrap = findViewById(R.id.my_scrap_layout)
+        myWrite = findViewById(R.id.my_write_layout)
         deleteBtn = findViewById(R.id.my_user_delete)
         tv_info_name = findViewById(R.id.tv_info_name)
         tv_info_mail = findViewById(R.id.tv_info_email)
@@ -44,9 +46,9 @@ class InfoActivity : AppCompatActivity() {
             finish()
         }
         
-        myWrite.setOnClickListener {
+        myLike.setOnClickListener {
             val intent = Intent(this, MyPostActivity::class.java)
-            intent.putExtra("name", "내가 쓴 글")
+            intent.putExtra("name", "내가 좋아한 글")
             intent.putExtra("kind", "goodCount")
             startActivity(intent)
         }
@@ -55,6 +57,13 @@ class InfoActivity : AppCompatActivity() {
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 찜한 글")
             intent.putExtra("kind", "scrapCount")
+            startActivity(intent)
+        }
+
+        myWrite.setOnClickListener{
+            val intent = Intent(this, MyPostActivity::class.java)
+            intent.putExtra("name", "내가 쓴 글")
+            intent.putExtra("kind", "write")
             startActivity(intent)
         }
 

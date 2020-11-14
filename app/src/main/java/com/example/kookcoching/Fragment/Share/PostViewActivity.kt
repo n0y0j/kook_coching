@@ -70,10 +70,22 @@ class PostViewActivity : AppCompatActivity() {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("goodCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
 
+                FirebaseFirestore.getInstance().collection("project_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("major_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
+
                 btn_like.setImageResource(R.drawable.empty_heart)
             }
             else {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("project_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("major_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
 
                 btn_like.setImageResource(R.drawable.filled_heart)
@@ -86,10 +98,22 @@ class PostViewActivity : AppCompatActivity() {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("scrapCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
 
+                FirebaseFirestore.getInstance().collection("project_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("major_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
+
                 btn_scrap.setImageResource(R.drawable.empty_star)
             }
             else {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("project_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
+
+                FirebaseFirestore.getInstance().collection("major_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("scrapCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
 
                 btn_scrap.setImageResource(R.drawable.my_scrap)
