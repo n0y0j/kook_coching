@@ -3,10 +3,8 @@ package com.example.kookcoching
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +16,10 @@ class InfoActivity : AppCompatActivity() {
     lateinit var myWrite : LinearLayout
     lateinit var myScrap : LinearLayout
     lateinit var deleteBtn : Button
+    lateinit var tv_info_name: TextView
+    lateinit var tv_info_mail: TextView
     lateinit var firestore: FirebaseFirestore
+    lateinit var firebaseAuth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,15 @@ class InfoActivity : AppCompatActivity() {
         myWrite = findViewById(R.id.my_write_layout)
         myScrap = findViewById(R.id.my_scrap_layout)
         deleteBtn = findViewById(R.id.my_user_delete)
+        tv_info_name = findViewById(R.id.tv_info_name)
+        tv_info_mail = findViewById(R.id.tv_info_email)
+        firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
+
+        var getIntent = getIntent()
+        // 내 정보에서 현재 로그인된 아이디와 닉네임 띄우기
+        tv_info_mail.setText(getIntent.getStringExtra("info_email"))
+        tv_info_name.setText(getIntent.getStringExtra("info_name"))
 
         backButton.setOnClickListener {
             finish()
