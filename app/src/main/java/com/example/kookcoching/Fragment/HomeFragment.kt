@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import com.example.kookcoching.Fragment.Home.HomePagerAdapter
 import com.example.kookcoching.Fragment.Home.TextViewScrolling.HomeSlotAdapter
 import com.example.kookcoching.InfoActivity
 import com.example.kookcoching.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -28,6 +31,8 @@ class HomeFragment : Fragment() {
     internal lateinit var slot_viewPager: ViewPager
     var items : ArrayList<String> = arrayListOf()
     lateinit var myBtn : Button
+    lateinit var firebaseAuth: FirebaseAuth
+    lateinit var firestore: FirebaseFirestore
 
     var currentPage : Int = 0
     lateinit var timer : Timer
@@ -44,8 +49,23 @@ class HomeFragment : Fragment() {
 
         myBtn = view.findViewById(R.id.btn_my)
 
+        var info_name: String ?= null
+        var info_email: String ?= null
+        firebaseAuth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+
+        // 현재 접속한 계정의 이메일과 닉네임 전달
+        var docRef = firestore!!.collection("user").document(firebaseAuth.currentUser?.uid.toString())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                info_name = document.get("name").toString()
+                info_email = document.get("id").toString()
+            }
+
         myBtn.setOnClickListener {
             val intent = Intent(activity, InfoActivity::class.java)
+            intent.putExtra("info_name", info_name)
+            intent.putExtra("info_email", info_email)
             startActivity(intent)
         }
 
