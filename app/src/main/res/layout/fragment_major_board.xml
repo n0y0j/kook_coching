@@ -1,34 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
     tools:context=".Fragment.MajorBoardFragment">
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="#2f2f7e"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="전공 게시판"
             android:textColor="#FFFFFF"
-            android:textSize="20dp"
-            android:layout_gravity="center"/>
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/btn_moveToBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="게시글 작성"
             android:layout_gravity="end"
             android:backgroundTint="#2f2f7e"
-            android:textColor="#FFFFFF"/>
+            android:drawableLeft="@drawable/edit"
+            android:text=" 글 작성"
+            android:textSize="15dp"
+            android:textColor="#FFFFFF" />
 
     </androidx.appcompat.widget.Toolbar>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/layout_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:gravity="right">
+
+        <Spinner
+            android:id="@+id/major_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/share_board"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/layout_spinner"
+        android:gravity="right">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="검색어를 입력하시오."
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:text="검색"
+            android:textColor="#FFFFFF"
+            android:background="#2f2f7e"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_post"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/cardview_item"
+        app:layout_constraintTop_toBottomOf="@+id/layout_search"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,18 @@
         <item>앱</item>
         <item>웹</item>
     </string-array>
+    <string-array name="major_board">
+        <item>전체</item>
+        <item>이산수학</item>
+        <item>모바일 프로그래밍</item>
+        <item>컴퓨터구조</item>
+        <item>응용통계학</item>
+        <item>화일처리</item>
+    </string-array>
+    <string-array name="project_board">
+        <item>전체</item>
+        <item>알고리즘</item>
+        <item>앱</item>
+        <item>웹</item>
+    </string-array>
 </resources>

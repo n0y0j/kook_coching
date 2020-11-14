@@ -55,7 +55,10 @@ class WriteBoardActivity : AppCompatActivity() {
         val chipGroup = findViewById(R.id.chip_group) as ChipGroup
         var tag: String = ""
 
+        // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         val share_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
+        val major_chip_string: ArrayList<String> = arrayListOf("이산수학", "모바일 프로그래밍", "컴퓨터구조","응용통계학","화일처리")
+        val project_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
 
         var intent: Intent = getIntent()
         var before_title = intent.getStringExtra("before_title")
@@ -123,6 +126,7 @@ class WriteBoardActivity : AppCompatActivity() {
 
 
         // 2020.10.26 / 노용준 / 게시판 별로 tag 생성
+        // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         when {
             chip_count == "share" ->
                 for (name in share_chip_string) {
@@ -131,7 +135,22 @@ class WriteBoardActivity : AppCompatActivity() {
                     chip.isClickable = true
                     chip.isCheckable = true
                     chipGroup.addView(chip)
-
+                }
+            chip_count == "major" ->
+                for (name in major_chip_string) {
+                    var chip = Chip(this)
+                    chip.setText(name)
+                    chip.isClickable = true
+                    chip.isCheckable = true
+                    chipGroup.addView(chip)
+                }
+            chip_count == "project" ->
+                for (name in project_chip_string) {
+                    var chip = Chip(this)
+                    chip.setText(name)
+                    chip.isClickable = true
+                    chip.isCheckable = true
+                    chipGroup.addView(chip)
                 }
         }
 
@@ -149,13 +168,23 @@ class WriteBoardActivity : AppCompatActivity() {
         }
         // 2020.11.2 / 노성환 / 게시글 수정하면 firestore 게시글의 필드값 수정
         // 수정을 하면 게시판을 수정한 후 업데이트
+        // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         if (check == "update") {
             Log.d("CHECK, TIME", check.toString() + ", " + before_time.toString())
             et_title.setText(before_title).toString()
             et_content.setText(before_content).toString()
             btn_store.setOnClickListener {
+
                 fbFirestore = FirebaseFirestore.getInstance()
                 var update = fbFirestore!!.collection("share_post").document(before_time.toString())
+                when {
+                    chip_count == "share" ->
+                        update = fbFirestore!!.collection("share_post").document(before_time.toString())
+                    chip_count == "major" ->
+                        update = fbFirestore!!.collection("major_post").document(before_time.toString())
+                    chip_count == "project" ->
+                        update = fbFirestore!!.collection("project_post").document(before_time.toString())
+                }
                 update
                     .update("title", et_title.text.toString())
                 update
@@ -223,19 +252,51 @@ class WriteBoardActivity : AppCompatActivity() {
 
                     handler.postDelayed(Runnable {
                         // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
-                        fbFirestore?.collection("share_post")?.document(id)
-                            ?.set(
-                                Post(
-                                    title.text.toString(),
-                                    content.text.toString(),
-                                    downloadUri,
-                                    tag,
-                                    firebaseAuth.currentUser?.uid.toString(),
-                                    name.toString(),
-                                    arrayListOf(),
-                                    arrayListOf()
-                                )
-                            )
+                        // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
+                        when {
+                            chip_count == "share" ->
+                                fbFirestore?.collection("share_post")?.document(id)
+                                    ?.set(
+                                        Post(
+                                            title.text.toString(),
+                                            content.text.toString(),
+                                            downloadUri,
+                                            tag,
+                                            firebaseAuth.currentUser?.uid.toString(),
+                                            name.toString(),
+                                            arrayListOf(),
+                                            arrayListOf()
+                                        )
+                                    )
+                            chip_count == "major" ->
+                                fbFirestore?.collection("major_post")?.document(id)
+                                    ?.set(
+                                        Post(
+                                            title.text.toString(),
+                                            content.text.toString(),
+                                            downloadUri,
+                                            tag,
+                                            firebaseAuth.currentUser?.uid.toString(),
+                                            name.toString(),
+                                            arrayListOf(),
+                                            arrayListOf()
+                                        )
+                                    )
+                            chip_count == "project" ->
+                                fbFirestore?.collection("project_post")?.document(id)
+                                    ?.set(
+                                        Post(
+                                            title.text.toString(),
+                                            content.text.toString(),
+                                            downloadUri,
+                                            tag,
+                                            firebaseAuth.currentUser?.uid.toString(),
+                                            name.toString(),
+                                            arrayListOf(),
+                                            arrayListOf()
+                                        )
+                                    )
+                        }
                         finish()
                     }, 500)
                 }
