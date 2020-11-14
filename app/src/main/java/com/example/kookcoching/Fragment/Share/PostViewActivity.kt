@@ -3,6 +3,7 @@ package com.example.kookcoching.Fragment.Share
 import androidx.appcompat.widget.Toolbar
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -40,8 +41,8 @@ class PostViewActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
         val btn_return = findViewById(R.id.btn_returnToShare) as ImageButton
-        val btn_like = findViewById(R.id.btn_like) as ImageButton
-        val btn_scrap = findViewById(R.id.btn_scrap) as ImageButton
+        val btn_like = findViewById(R.id.btn_like) as ImageView
+        val btn_scrap = findViewById(R.id.btn_scrap) as ImageView
 
 
         // 댓글 작성 버튼
@@ -65,8 +66,13 @@ class PostViewActivity : AppCompatActivity() {
 
         // 2020.11.12 / 노용준 / 좋아요 버튼 클릭시
         btn_like.setOnClickListener{
+            if (btn_like.drawable.constantState == resources.getDrawable(R.drawable.filled_heart).constantState) {
+                FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("goodCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
 
-            if (!goodList.contains(FirebaseAuth.getInstance().currentUser?.uid)) {
+                btn_like.setImageResource(R.drawable.empty_heart)
+            }
+            else {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("goodCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
 
@@ -76,8 +82,13 @@ class PostViewActivity : AppCompatActivity() {
 
         // 2020.11.12 / 노용준 / 찜 버튼 클릭시
         btn_scrap.setOnClickListener {
+            if (btn_scrap.drawable.constantState == resources.getDrawable(R.drawable.my_scrap).constantState) {
+                FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .update("scrapCount", FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser?.uid))
 
-            if (!scrapList.contains(FirebaseAuth.getInstance().currentUser?.uid)) {
+                btn_scrap.setImageResource(R.drawable.empty_star)
+            }
+            else {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
                     .update("scrapCount", FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser?.uid))
 
@@ -255,8 +266,4 @@ class PostViewActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
-
 }
