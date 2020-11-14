@@ -1,5 +1,6 @@
 package com.example.kookcoching.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,12 +66,9 @@ class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<R
             tag?.text = "[" + post.tag + "]"
             title?.text = post.title
             content?.text = post.content
-
-            FirebaseFirestore.getInstance().collection("user").document(post.author).addSnapshotListener { value, error ->
-                writer?.text = value?.get("name").toString()
-                goodCount?.text = arrayOf(value?.get("goodCount")).size.toString()
-                scrapCount?.text = arrayOf(value?.get("scrapCount")).size.toString()
-            }
+            writer?.text = post.nickname
+            goodCount?.text = post.goodCount.size.toString()
+            scrapCount?.text = post.scrapCount.size.toString()
         }
     }
 }
