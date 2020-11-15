@@ -47,11 +47,19 @@ class MyPostActivity : AppCompatActivity() {
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
-            val deferred : Deferred<QuerySnapshot?> = async {
-                var documentDB : QuerySnapshot? = null
+            val deferred : Deferred<ArrayList<QuerySnapshot?>> = async {
+                var documentDB : ArrayList<QuerySnapshot?> = arrayListOf()
                 var docRef = FirebaseFirestore.getInstance().collection("share_post").get()
                     .addOnSuccessListener { documents ->
-                        documentDB = documents
+                        documentDB.add(documents)
+                    }.await()
+                var docRef2 = FirebaseFirestore.getInstance().collection("major_post").get()
+                    .addOnSuccessListener { documents ->
+                        documentDB.add(documents)
+                    }.await()
+                var docRef3 = FirebaseFirestore.getInstance().collection("project_post").get()
+                    .addOnSuccessListener { documents ->
+                        documentDB.add(documents)
                     }.await()
 
                 documentDB
@@ -59,41 +67,76 @@ class MyPostActivity : AppCompatActivity() {
 
             val job : Job = async {
 
-                val documents : QuerySnapshot? = deferred.await()
+                val job_documents: ArrayList<QuerySnapshot?> = deferred.await()
+                for (documents in job_documents) {
 
-                if (documents != null) {
-                    for (document in documents) {
-                        var nickname: String = document.get("nickname").toString()
-                        var author: String = document.get("author").toString()
-                        var title : String = document.get("title").toString()
-                        var content : String = document.get("content").toString()
-                        var time : Long = document.id.toLong()
-                        var image : ArrayList<String> = document.get("image") as ArrayList<String>
-                        var tag : String = document.get("tag").toString()
-                        var good : ArrayList<String> = document.get("goodCount") as ArrayList<String>
-                        var scrap : ArrayList<String> = document.get("scrapCount") as ArrayList<String>
+                    if (documents != null) {
+                        for (document in documents) {
+                            var nickname: String = document.get("nickname").toString()
+                            var author: String = document.get("author").toString()
+                            var title: String = document.get("title").toString()
+                            var content: String = document.get("content").toString()
+                            var time: Long = document.id.toLong()
+                            var image: ArrayList<String> =
+                                document.get("image") as ArrayList<String>
+                            var tag: String = document.get("tag").toString()
+                            var good: ArrayList<String> =
+                                document.get("goodCount") as ArrayList<String>
+                            var scrap: ArrayList<String> =
+                                document.get("scrapCount") as ArrayList<String>
 
-                        when (intent.getStringExtra("kind")) {
-                            "goodCount" -> {
-                                if (good.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
-                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
-                                    postList.add(post)
+                            when (intent.getStringExtra("kind")) {
+                                "goodCount" -> {
+                                    if (good.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
+                                        var post = getPost(
+                                            title,
+                                            content,
+                                            time,
+                                            image,
+                                            tag,
+                                            author,
+                                            nickname,
+                                            good,
+                                            scrap
+                                        )
+                                        postList.add(post)
+                                    }
+                                }
+                                "scrapCount" -> {
+                                    if (scrap.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
+                                        var post = getPost(
+                                            title,
+                                            content,
+                                            time,
+                                            image,
+                                            tag,
+                                            author,
+                                            nickname,
+                                            good,
+                                            scrap
+                                        )
+                                        postList.add(post)
+                                    }
+                                }
+                                "write" -> {
+                                    if (author.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+                                        var post = getPost(
+                                            title,
+                                            content,
+                                            time,
+                                            image,
+                                            tag,
+                                            author,
+                                            nickname,
+                                            good,
+                                            scrap
+                                        )
+                                        postList.add(post)
+                                    }
                                 }
                             }
-                            "scrapCount" -> {
-                                if (scrap.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
-                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
-                                    postList.add(post)
-                                }
-                            }
-                            "write" -> {
-                                if(author.equals(FirebaseAuth.getInstance().currentUser?.uid)){
-                                    var post = getPost(title, content, time, image, tag, author, nickname, good, scrap)
-                                    postList.add(post)
-                                }
-                            }
+
                         }
-
                     }
                 }
             }
