@@ -1,38 +1,31 @@
 package com.example.kookcoching.Fragment.Share
 
 import android.Manifest.permission.*
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.kookcoching.Adapter.RecyclerAdapter
-import com.example.kookcoching.Fragment.ShareBoardFragment
 import com.example.kookcoching.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import gun0912.tedbottompicker.TedBottomPicker
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class WriteBoardActivity : AppCompatActivity() {
@@ -51,13 +44,20 @@ class WriteBoardActivity : AppCompatActivity() {
         val btn_camera = findViewById(R.id.cameta_btn) as ImageButton
         var et_title = findViewById<EditText>(R.id.et_title)
         var et_content = findViewById<EditText>(R.id.et_content)
+        val image_linear = findViewById<LinearLayout>(R.id.image_linear)
 
         val chipGroup = findViewById(R.id.chip_group) as ChipGroup
         var tag: String = ""
 
         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         val share_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
-        val major_chip_string: ArrayList<String> = arrayListOf("이산수학", "모바일 프로그래밍", "컴퓨터구조","응용통계학","화일처리")
+        val major_chip_string: ArrayList<String> = arrayListOf(
+            "이산수학",
+            "모바일 프로그래밍",
+            "컴퓨터구조",
+            "응용통계학",
+            "화일처리"
+        )
         val project_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
 
         var intent: Intent = getIntent()
@@ -92,6 +92,25 @@ class WriteBoardActivity : AppCompatActivity() {
                             TedBottomSheetDialogFragment.OnMultiImageSelectedListener {
                             override fun onImagesSelected(uriList: List<Uri>) {
                                 Log.d("image", uriList.toString())
+
+                                for (item in uriList) {
+
+                                    val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(130,
+                                        130
+                                    )
+                                    lp.setMargins(20, 0, 0, 0)
+
+                                    val myImage = ImageView(applicationContext)
+                                    myImage.maxWidth = 100
+                                    myImage.maxHeight = 100
+                                    myImage.setImageURI(item)
+                                    myImage.layoutParams = lp
+
+                                    image_linear.addView(myImage)
+
+                                    Log.d("zzzzzzzzzz", image_linear.childCount.toString())
+                                }
+
                                 selectUrlList = uriList
                             }
                         })
