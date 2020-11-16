@@ -31,6 +31,7 @@ class HomeSlotAdapter(private val context: Context) : PagerAdapter() {
         slot_btn.setOnClickListener{
             slot_text.setValueRandom(Random.nextInt(4), Random.nextInt(10)+5)
             slot_btn.isClickable = false
+            slot_btn.setText("재밌겠다!")
 
         }
 

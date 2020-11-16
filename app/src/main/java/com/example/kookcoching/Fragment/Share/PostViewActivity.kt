@@ -133,12 +133,14 @@ class PostViewActivity : AppCompatActivity() {
         val image = findViewById(R.id.image_group) as LinearLayout
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f
+            LinearLayout.LayoutParams.WRAP_CONTENT
         )
+
+        image.gravity = Gravity.CENTER
 
         if (imageList != null) {
             for (item in imageList) {
+
                 var temp: ImageView = ImageView(this)
                 temp.layoutParams = layoutParams
                 // url을 통해 이미지를 가져오는 Glide 라이브러리 사용
