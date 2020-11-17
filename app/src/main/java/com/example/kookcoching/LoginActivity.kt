@@ -49,6 +49,8 @@ class LoginActivity : AppCompatActivity() {
                 if (p0.isSuccessful) {
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
+                }else {
+                    Toast.makeText(this@LoginActivity, "등록된 사용자가 아닙니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

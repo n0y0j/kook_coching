@@ -143,7 +143,6 @@ class WriteBoardActivity : AppCompatActivity() {
 
         }
 
-
         // 2020.10.26 / 노용준 / 게시판 별로 tag 생성
         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         when {
@@ -188,6 +187,7 @@ class WriteBoardActivity : AppCompatActivity() {
         // 2020.11.2 / 노성환 / 게시글 수정하면 firestore 게시글의 필드값 수정
         // 수정을 하면 게시판을 수정한 후 업데이트
         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
+        // 2020.11.17 / 문성찬 / 게시글 수정 시 아무것도 입력 안했을 때의 수행처리되는 에러 수정
         if (check == "update") {
             Log.d("CHECK, TIME", check.toString() + ", " + before_time.toString())
             et_title.setText(before_title).toString()
@@ -204,16 +204,20 @@ class WriteBoardActivity : AppCompatActivity() {
                     chip_count == "project" ->
                         update = fbFirestore!!.collection("project_post").document(before_time.toString())
                 }
-                update
-                    .update("title", et_title.text.toString())
-                update
-                    .update("content", et_content.text.toString())
-                update.update("tag", tag)
-                    .addOnCompleteListener {
-                        Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_SHORT).show()
-                        Thread.sleep(1000L)
-                        finish()
-                    }
+                if((et_title.text.toString().length == 0) || (et_content.text.toString().length == 0) || (tag.length == 0)){
+                    Toast.makeText(this@WriteBoardActivity, "게시글을 다시 한번 확인해주세요.",Toast.LENGTH_LONG).show()
+                }else {
+                    update
+                        .update("title", et_title.text.toString())
+                    update
+                        .update("content", et_content.text.toString())
+                    update.update("tag", tag)
+                        .addOnCompleteListener {
+                            Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_SHORT).show()
+                            Thread.sleep(1000L)
+                            finish()
+                        }
+                }
             }
 
 
@@ -272,54 +276,59 @@ class WriteBoardActivity : AppCompatActivity() {
                     handler.postDelayed(Runnable {
                         // 2020.10.29 / 노용준 / document name을 epoch time으로 설정 (시간 순으로 자동정렬)
                         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
-                        when {
-                            chip_count == "share" ->
-                                fbFirestore?.collection("share_post")?.document(id)
-                                    ?.set(
-                                        Post(
-                                            title.text.toString(),
-                                            content.text.toString(),
-                                            downloadUri,
-                                            tag,
-                                            firebaseAuth.currentUser?.uid.toString(),
-                                            name.toString(),
-                                            arrayListOf(),
-                                            arrayListOf()
+                        // 2020.11.17 / 문성찬 / 게시글 작성 시 아무것도 입력 안했을 때의 수행처리되는 에러 수정
+                        if((title.text.toString().length == 0) || (content.text.toString().length == 0) || (tag.length == 0)){
+                            Toast.makeText(this@WriteBoardActivity, "게시글을 다시 한번 확인해주세요.",Toast.LENGTH_LONG).show()
+                        }else {
+                            when {
+                                chip_count == "share" ->
+                                    fbFirestore?.collection("share_post")?.document(id)
+                                        ?.set(
+                                            Post(
+                                                title.text.toString(),
+                                                content.text.toString(),
+                                                downloadUri,
+                                                tag,
+                                                firebaseAuth.currentUser?.uid.toString(),
+                                                name.toString(),
+                                                arrayListOf(),
+                                                arrayListOf()
+                                            )
                                         )
-                                    )
-                            chip_count == "major" ->
-                                fbFirestore?.collection("major_post")?.document(id)
-                                    ?.set(
-                                        Post(
-                                            title.text.toString(),
-                                            content.text.toString(),
-                                            downloadUri,
-                                            tag,
-                                            firebaseAuth.currentUser?.uid.toString(),
-                                            name.toString(),
-                                            arrayListOf(),
-                                            arrayListOf()
+                                chip_count == "major" ->
+                                    fbFirestore?.collection("major_post")?.document(id)
+                                        ?.set(
+                                            Post(
+                                                title.text.toString(),
+                                                content.text.toString(),
+                                                downloadUri,
+                                                tag,
+                                                firebaseAuth.currentUser?.uid.toString(),
+                                                name.toString(),
+                                                arrayListOf(),
+                                                arrayListOf()
+                                            )
                                         )
-                                    )
-                            chip_count == "project" ->
-                                fbFirestore?.collection("project_post")?.document(id)
-                                    ?.set(
-                                        Post(
-                                            title.text.toString(),
-                                            content.text.toString(),
-                                            downloadUri,
-                                            tag,
-                                            firebaseAuth.currentUser?.uid.toString(),
-                                            name.toString(),
-                                            arrayListOf(),
-                                            arrayListOf()
+                                chip_count == "project" ->
+                                    fbFirestore?.collection("project_post")?.document(id)
+                                        ?.set(
+                                            Post(
+                                                title.text.toString(),
+                                                content.text.toString(),
+                                                downloadUri,
+                                                tag,
+                                                firebaseAuth.currentUser?.uid.toString(),
+                                                name.toString(),
+                                                arrayListOf(),
+                                                arrayListOf()
+                                            )
                                         )
-                                    )
+                            }
+                            Toast.makeText(this@WriteBoardActivity, "저장되었습니다.", Toast.LENGTH_SHORT).show()
+                            finish()
                         }
-                        finish()
                     }, 500)
                 }
-                Toast.makeText(this, "저장되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
