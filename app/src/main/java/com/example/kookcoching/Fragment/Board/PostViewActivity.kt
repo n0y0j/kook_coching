@@ -1,9 +1,8 @@
-package com.example.kookcoching.Fragment.Share
+package com.example.kookcoching.Fragment.Board
 
 import androidx.appcompat.widget.Toolbar
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -18,7 +17,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.share_viewpost.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -153,7 +151,7 @@ class PostViewActivity : AppCompatActivity() {
             }
         }
 
-        // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
+        // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기(댓글)
         val scope = CoroutineScope(Dispatchers.Default)
         var post_time = ""
 
@@ -231,7 +229,7 @@ class PostViewActivity : AppCompatActivity() {
 
     }
 
-    // 2020.10.30 / 노성환 / 툴바에 메뉴 추가 + 해당 작성자만 편집가능하게 함(2020.11.05)
+    // 2020.10.30 / 노성환 / 툴바에 메뉴 추가 + 해당 작성자만 수정, 삭제 가능하게 함(2020.11.05)
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         firebaseAuth = FirebaseAuth.getInstance()
         var author = intent.getStringExtra("author")

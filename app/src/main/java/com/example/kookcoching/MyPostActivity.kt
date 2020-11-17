@@ -1,20 +1,16 @@
 package com.example.kookcoching
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Adapter.RecyclerAdapter
-import com.example.kookcoching.Fragment.Share.PostViewActivity
-import com.example.kookcoching.Fragment.Share.getPost
+import com.example.kookcoching.Fragment.Board.PostViewActivity
+import com.example.kookcoching.Fragment.Board.getPost
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -90,6 +86,7 @@ class MyPostActivity : AppCompatActivity() {
 
                             // 경우의 수에 따라 게시글 목록을 설정
                             when (intent.getStringExtra("kind")) {
+                                // 좋아요
                                 "goodCount" -> {
                                     if (good.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
                                         var post = getPost(
@@ -107,6 +104,7 @@ class MyPostActivity : AppCompatActivity() {
                                     }
                                 }
                                 "scrapCount" -> {
+                                    // 스크랩
                                     if (scrap.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
                                         var post = getPost(
                                             title,
@@ -123,6 +121,7 @@ class MyPostActivity : AppCompatActivity() {
                                     }
                                 }
                                 "write" -> {
+                                    // 작성한 글
                                     if (author.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
                                         var post = getPost(
                                             title,

@@ -14,6 +14,7 @@ class IntroActivity : AppCompatActivity() {
         startLoading()
     }
 
+    // 2초간 인트로 화면을 띄운 뒤 메인화면으로 이동
     private fun startLoading() {
         val handler = Handler()
         handler.postDelayed({

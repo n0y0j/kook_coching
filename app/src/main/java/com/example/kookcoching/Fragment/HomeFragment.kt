@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // 현재 접속한 계정의 이메일과 닉네임 전달
+        // 2020.11.15 / 노성환 / 현재 접속한 계정의 이메일과 닉네임 전달
         var docRef = firestore!!.collection("user").document(firebaseAuth.currentUser?.uid.toString())
         docRef.get()
             .addOnSuccessListener { document ->
@@ -81,8 +81,8 @@ class HomeFragment : Fragment() {
             //  deferred 객체는 받고자하는 return 타입을 지정할 수 있음
             val deferred : Deferred<Elements> = async {
                 var url = "https://www.tiobe.com/tiobe-index/"
-                // Jsoup 라이브러리를 활용한 크롤링, timeout 코드는 최대 3초까지 기다리겠다는 의미
-                var doc = Jsoup.connect(url).timeout(1000 * 3).get()
+                // Jsoup 라이브러리를 활용한 크롤링, timeout 코드는 최대 5초까지 기다리겠다는 의미
+                var doc = Jsoup.connect(url).timeout(1000 * 5).get()
                 // html 태그의 table -> tbody -> tr의 정보를 받아옴
                 val elements : Elements = doc.select("table tbody tr")
 

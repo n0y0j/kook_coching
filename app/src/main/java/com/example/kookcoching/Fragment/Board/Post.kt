@@ -1,4 +1,4 @@
-package com.example.kookcoching.Fragment.Share
+package com.example.kookcoching.Fragment.Board
 
 // 2020.10.26 / 문성찬 / 포스트 클래스
 data class Post(var title: String, var content: String, var image: ArrayList<String>, var tag: String, var author: String, var nickname: String, var goodCount: ArrayList<String>, var scrapCount: ArrayList<String>){

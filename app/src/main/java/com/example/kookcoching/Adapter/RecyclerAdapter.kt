@@ -1,15 +1,12 @@
 package com.example.kookcoching.Adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kookcoching.Fragment.Share.getPost
+import com.example.kookcoching.Fragment.Board.getPost
 import com.example.kookcoching.R
-import com.google.firebase.firestore.FirebaseFirestore
-import org.w3c.dom.Text
 
 // 2020.10.26 / 문성찬 / 리사이클뷰 어댑터 기능
 class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){

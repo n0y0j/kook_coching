@@ -10,24 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kookcoching.Adapter.RecyclerAdapter
-import com.example.kookcoching.Fragment.Share.Post
-import com.example.kookcoching.Fragment.Share.PostViewActivity
-import com.example.kookcoching.Fragment.Share.WriteBoardActivity
-import com.example.kookcoching.Fragment.Share.getPost
+import com.example.kookcoching.Fragment.Board.PostViewActivity
+import com.example.kookcoching.Fragment.Board.WriteBoardActivity
+import com.example.kookcoching.Fragment.Board.getPost
 import com.example.kookcoching.R
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.android.synthetic.main.fragment_major_board.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.tasks.await
 
 // 2020.11.14 / 문성찬 / 전공 게시판 프래그먼트 구현

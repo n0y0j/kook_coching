@@ -10,10 +10,9 @@ import android.widget.ImageButton
 
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kookcoching.Fragment.Share.PostViewActivity
-import com.example.kookcoching.Fragment.Share.getComment
+import com.example.kookcoching.Fragment.Board.PostViewActivity
+import com.example.kookcoching.Fragment.Board.getComment
 import com.example.kookcoching.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,7 +47,7 @@ class CommentRecyclerAdapter(
     }
 
     // 카드뷰 xml을 이용해 리사이클뷰 아이템 표시
-    // 2020.11.07 / 노성환 / 댓글의 삭제 버튼
+    // 2020.11.07 / 노성환 / 댓글의 삭제 기능
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -62,7 +61,7 @@ class CommentRecyclerAdapter(
             comment?.text = data.comment
             commentNickname?.text = data.nickname // 댓글 닉네임 가져옴
             idx = num
-            // 자신 계정이 맞는 경우에만 삭제 버튼이 생기도록 설정
+            // 자신 계정이 쓴 경우에만 삭제 버튼이 생기도록 설정
             if (!(commentList[idx].author).equals(firebaseAuth.currentUser?.uid.toString()))
                 imageButton.visibility = View.GONE
             imageButton.setOnClickListener(this)
@@ -80,7 +79,7 @@ class CommentRecyclerAdapter(
             showMenu(p0!!)
         }
 
-        // 삭제 메뉴 보여줌
+        // 댓글 메뉴에서 삭제 클릭하면 해당 댓글이 삭제됨
         fun showMenu(view: View) {
             val popupMenu = PopupMenu(view.context, view)
             popupMenu.inflate(R.menu.comment_menu)

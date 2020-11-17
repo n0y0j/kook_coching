@@ -1,4 +1,4 @@
-package com.example.kookcoching.Fragment.Share
+package com.example.kookcoching.Fragment.Board
 
 import android.Manifest.permission.*
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -60,6 +59,8 @@ class WriteBoardActivity : AppCompatActivity() {
         )
         val project_chip_string: ArrayList<String> = arrayListOf("알고리즘", "앱", "웹")
 
+
+        // 수정할 때 기존 데이터를 이동하기 위한 intent
         var intent: Intent = getIntent()
         var before_title = intent.getStringExtra("before_title")
         var before_content = intent.getStringExtra("before_content")
@@ -184,9 +185,9 @@ class WriteBoardActivity : AppCompatActivity() {
             finish()
         }
         // 2020.11.2 / 노성환 / 게시글 수정하면 firestore 게시글의 필드값 수정
-        // 수정을 하면 게시판을 수정한 후 업데이트
         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         // 2020.11.17 / 문성찬 / 게시글 수정 시 아무것도 입력 안했을 때의 수행처리되는 에러 수정
+        // 수정을 하면 게시판을 수정한 후 업데이트
         if (check == "update") {
             Log.d("CHECK, TIME", check.toString() + ", " + before_time.toString())
             et_title.setText(before_title).toString()
@@ -221,7 +222,7 @@ class WriteBoardActivity : AppCompatActivity() {
 
 
         }
-        // 게시판을 만들면 추가
+        // 게시판을  새로 만들면 추가
         else if (check == "new") {
             // 노성환 / firestore 게시판 컬렉션에 저장
             btn_store.setOnClickListener {
