@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.random.Random
 
+// 2020.09.23 / 노용준 / BottomNavigationView와 Viewpager를 이용하여 4개의 Fragment 화면을 전환한다.
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

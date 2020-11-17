@@ -20,6 +20,7 @@ import org.jsoup.select.Elements
 import org.w3c.dom.Document
 
 // 2020.10. / 노용준 / image scroll view adapter
+// home_viewpager_activity를 기반으로 items 안에 저장된 정보들로 10개의 다른 위젯을 만듦
 class HomePagerAdapter(private val context: Context, items : ArrayList<String>) : PagerAdapter() {
     private var layoutInflater : LayoutInflater? = null
 
@@ -33,6 +34,7 @@ class HomePagerAdapter(private val context: Context, items : ArrayList<String>) 
         return items.size
     }
 
+    // 각기 다른 10개의 위젯 생성
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val v = layoutInflater!!.inflate(R.layout.home_viewpager_activity, null)
@@ -55,11 +57,13 @@ class HomePagerAdapter(private val context: Context, items : ArrayList<String>) 
         rating.setText(item[3 + check])
         change.setText(item[4 + check])
 
+        // 글자 수가 많으면 글자 크기를 줄임
         if (item[2].length > 9) name.setTextSize(30F)
 
         val vp = container as ViewPager
         vp.addView(v, 0)
 
+        // 1등의 배경화면은 금, 2등은 은, 3등은 동, 나머지는 남색으로 표시
         when {
             position == 0 -> card_view.setBackgroundColor(Color.parseColor("#FFD700"))
             position == 1 -> card_view.setBackgroundColor(Color.parseColor("#C0C0C0"))

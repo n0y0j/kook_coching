@@ -10,7 +10,8 @@ import android.widget.TextView
 import com.example.kookcoching.R
 import kotlinx.android.synthetic.main.home_text_view_scrolling.view.*
 
-// 2020.10. / 노용준 / 슬롯머신 애니메이션
+// 2020.10.04 / 노용준 / 슬롯머신 애니메이션
+// 4개의 단어가 슬롯머신처럼 돌아가면서 랜덤으로 하나가 선택된다.
 class TextViewScrolling : FrameLayout {
     // 현재 가리키는 Text의 value
     internal var oldValue = 0
@@ -34,7 +35,7 @@ class TextViewScrolling : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.home_text_view_scrolling, this)
     }
 
-    // slot action을 보여주는 핵심코드
+    // TextView의 animate()를 사용하여 단어들이 아래에서 위로 움직일 수 있게 구현
     fun setValueRandom(text: Int, num_rotate: Int) {
 
         currentText.animate()
@@ -47,12 +48,14 @@ class TextViewScrolling : FrameLayout {
             .setListener(object: Animator.AnimatorListener{
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
-
+                // 애니메이션이 끝나는 부분
                 override fun onAnimationEnd(animation: Animator?) {
+                    // 단어 랜덤 선택
                     setText(currentText, oldValue%4)
-
+                    // 위치 고정
                     currentText.translationY = 0f
 
+                    // 끝났는지 확인
                     if(oldValue != num_rotate) {
                         setValueRandom(text, num_rotate)
                         oldValue++

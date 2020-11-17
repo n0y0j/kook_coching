@@ -73,6 +73,7 @@ class MajorBoardFragment : Fragment() {
         }
 
         // 2020.10.26 / 노용준 / Get data in firestore
+        // return을 요구하는 deffered와 return을 요구하지 않는 job을 사용하여 동기/비동기 작업
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {

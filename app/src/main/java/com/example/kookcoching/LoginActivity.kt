@@ -12,6 +12,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 // 2020.11.04 / 노용준 / 로그인 화면
+// 입력받은 Email과 Password를 통해 FireBase Authentication에 저장된 유저인지 아닌지 확인한다.
 class LoginActivity : AppCompatActivity() {
 
     lateinit var EmailText: EditText
@@ -55,7 +56,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // 비밀번호 찾기
+        // 2020.11.11 / 노용준 / 비밀번호 찾기
+        // 등록되어 있는 Email 입력 시, 비밀번호 재설정 메일을 전송한다.
         passBtn.setOnClickListener {
             val email : EditText = EditText(this);
 

@@ -116,6 +116,7 @@ class HomeFragment : Fragment() {
                 slider_viewPager.adapter = adapter
                 slot_viewPager.adapter = slot_adapter
 
+                // 이미지 슬라이더 함수 실행 부분
                 updatePage(slider_viewPager)
 
                 slider_viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -144,16 +145,21 @@ class HomeFragment : Fragment() {
         return super.getContext()!!
     }
 
+    // 2020.11.01 / 노용준 / ViewPager 자동 변경
     fun updatePage(view : ViewPager) {
         var handler = Handler()
 
+        // Viewpager가 변경되는 부분
         val Update: Runnable = Runnable {
+            // 무한반복
             if (currentPage == 10) {
                 currentPage = 0
             }
+            // 페이지 변경
             view.setCurrentItem(currentPage++, true)
         }
 
+        // 2초마다 페이지가 넘어가게 구현
         timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {

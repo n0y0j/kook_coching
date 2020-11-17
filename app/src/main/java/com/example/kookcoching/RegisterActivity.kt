@@ -18,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 
 // 2020.11.04 / 노용준 / 회원가입 화면
+// FireAuthentication에 새로운 User를 등록한다.
+// Email, Password, Name을 설정할 수 있다.
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var NameText: EditText
@@ -35,6 +37,7 @@ class RegisterActivity : AppCompatActivity() {
         backBtn = findViewById(R.id.back)
         registerBtn = findViewById(R.id.register_btn)
 
+        // 뒤로가기 버튼
         backBtn.setOnClickListener {
             finish()
         }
@@ -46,6 +49,7 @@ class RegisterActivity : AppCompatActivity() {
         PasswordText = findViewById(R.id.register_password)
         CheckPasswordText = findViewById(R.id.register_pasword_check)
 
+        // 회원가입 버튼 클릭 시
         registerBtn.setOnClickListener {
             val name = NameText.text.toString()
             val email = EmailText.text.toString()
@@ -72,6 +76,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         val firestore = FirebaseFirestore.getInstance()
 
+                        // user의 id, email을 firestore에 저장
                         firestore.collection("user").document(user_uid).set(hashMap)
 
                         Toast.makeText(this@RegisterActivity, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT)

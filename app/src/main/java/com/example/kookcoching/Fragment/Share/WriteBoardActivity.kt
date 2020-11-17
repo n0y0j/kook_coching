@@ -94,7 +94,7 @@ class WriteBoardActivity : AppCompatActivity() {
                                 Log.d("image", uriList.toString())
 
                                 for (item in uriList) {
-
+                                    // 이미지의 미리보기를 위해 ImageView 동적 생성
                                     val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(130,
                                         130
                                     )
@@ -108,7 +108,6 @@ class WriteBoardActivity : AppCompatActivity() {
 
                                     image_linear.addView(myImage)
 
-                                    Log.d("zzzzzzzzzz", image_linear.childCount.toString())
                                 }
 
                                 selectUrlList = uriList
@@ -126,6 +125,7 @@ class WriteBoardActivity : AppCompatActivity() {
                 }
             }
 
+            // 권한 요청
             ActivityCompat.requestPermissions(
                 this@WriteBoardActivity, arrayOf<String>(
                     READ_CONTACTS,
@@ -177,7 +177,6 @@ class WriteBoardActivity : AppCompatActivity() {
             val chip: Chip? = findViewById(check_pos)
 
             tag = chip?.text.toString()
-            Log.d("zzzzzzzzzzzzz", tag)
         }
 
 
@@ -243,7 +242,7 @@ class WriteBoardActivity : AppCompatActivity() {
                     }
 
                 // 2020.10.30 / 노용준 / 선택된 Image를 Firestore에 저장
-                // FireStorage에 저장 후 Image Uri를 파싱해서 Firestore에 저장
+                // FireStorage에 저장 후 Image Url을 파싱해서 Firestore에 저장
                 mStorageRef = FirebaseStorage.getInstance().getReference()
 
                 val scope = CoroutineScope(Dispatchers.Default)

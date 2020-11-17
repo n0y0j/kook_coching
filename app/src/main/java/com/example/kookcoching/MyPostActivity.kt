@@ -21,6 +21,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
+// 2020.11.06 / 노용준 / 내가 좋아한 글, 내가 찜한 글, 내가 쓴 글
+// Firestore에서 각 게시글 데이터를 가져온 후, 위 세개의 경우의 수에 맞는 게시글 목록을 생성한다.
 class MyPostActivity : AppCompatActivity() {
 
     lateinit var title : TextView
@@ -39,16 +41,17 @@ class MyPostActivity : AppCompatActivity() {
 
         title.setText(intent.getStringExtra("name"))
 
+        // 뒤로가기 버튼 클릭 시
         backBtn.setOnClickListener {
             finish()
         }
 
-        // 2020.10.26 / 노용준 / Get data in firestore
         val scope = CoroutineScope(Dispatchers.Default)
 
         scope.launch {
             val deferred : Deferred<ArrayList<QuerySnapshot?>> = async {
                 var documentDB : ArrayList<QuerySnapshot?> = arrayListOf()
+                // 각 게시판에서 데이터를 갖고옴
                 var docRef = FirebaseFirestore.getInstance().collection("share_post").get()
                     .addOnSuccessListener { documents ->
                         documentDB.add(documents)
@@ -85,6 +88,7 @@ class MyPostActivity : AppCompatActivity() {
                             var scrap: ArrayList<String> =
                                 document.get("scrapCount") as ArrayList<String>
 
+                            // 경우의 수에 따라 게시글 목록을 설정
                             when (intent.getStringExtra("kind")) {
                                 "goodCount" -> {
                                     if (good.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {

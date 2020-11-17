@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+// 2020.11.12 / 노용준 / 내 정보 스크린
+// 자신의 닉네임과 이메일을 확인할 수 있으며, 내가 쓴 글, 내가 좋아한 글, 내가 찜한 글 3가지 항목의
+// 선택으로 자신이 원하는 글 목록을 확인할 수 있다. (+ 회원탈퇴)
 class InfoActivity : AppCompatActivity() {
 
     lateinit var backButton : ImageButton
@@ -45,14 +48,16 @@ class InfoActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
-        
+
+        // 내가 좋아한 글 버튼 클릭 시
         myLike.setOnClickListener {
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 좋아한 글")
             intent.putExtra("kind", "goodCount")
             startActivity(intent)
         }
-        
+
+        // 내가 찜한 글 버튼 클릭 시
         myScrap.setOnClickListener {
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 찜한 글")
@@ -60,6 +65,7 @@ class InfoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // 내가 쓴 글 버튼 클릭 시
         myWrite.setOnClickListener{
             val intent = Intent(this, MyPostActivity::class.java)
             intent.putExtra("name", "내가 쓴 글")
@@ -67,6 +73,8 @@ class InfoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // 2020.11.12 / 노용준 / 회원탈퇴
+        // 현재 접속된 유저의 정보를 Firebase Authentication에서 삭제한다.
         deleteBtn.setOnClickListener {
             val builder : AlertDialog.Builder = AlertDialog.Builder(this);
             builder.setTitle("회원탈퇴");

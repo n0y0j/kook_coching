@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp"></androidx.viewpager.widget.ViewPager>
+        tools:layout_editor_absoluteX="16dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

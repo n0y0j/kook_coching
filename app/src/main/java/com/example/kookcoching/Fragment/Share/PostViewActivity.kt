@@ -61,10 +61,12 @@ class PostViewActivity : AppCompatActivity() {
         val goodList = inIntent.getStringArrayListExtra("goodCount") as ArrayList<String>
         val scrapList = inIntent.getStringArrayListExtra("scrapCount") as ArrayList<String>
 
+        // 2020.11.12 / 노용준 / 현재 유저가 좋아하거나 찜 한 글일 때를 표시
         if (goodList.contains(FirebaseAuth.getInstance().currentUser?.uid)) btn_like.setImageResource(R.drawable.filled_heart)
         if (scrapList.contains(FirebaseAuth.getInstance().currentUser?.uid)) btn_scrap.setImageResource(R.drawable.my_scrap)
 
         // 2020.11.12 / 노용준 / 좋아요 버튼 클릭시
+        // 게시글 Firestore의 goodCount 필드에 자신의 uid가 저장됨
         btn_like.setOnClickListener{
             if (btn_like.drawable.constantState == resources.getDrawable(R.drawable.filled_heart).constantState) {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
@@ -93,6 +95,7 @@ class PostViewActivity : AppCompatActivity() {
         }
 
         // 2020.11.12 / 노용준 / 찜 버튼 클릭시
+        // 게시글 Firestore의 scrapCount 필드에 자신의 uid가 저장됨
         btn_scrap.setOnClickListener {
             if (btn_scrap.drawable.constantState == resources.getDrawable(R.drawable.my_scrap).constantState) {
                 FirebaseFirestore.getInstance().collection("share_post").document(inIntent.getLongExtra("time", 0).toString())
@@ -153,8 +156,6 @@ class PostViewActivity : AppCompatActivity() {
         // 2020.10.30 / 노성환 / firestore 하위 컬렉션인 comment의 data 가져오기
         val scope = CoroutineScope(Dispatchers.Default)
         var post_time = ""
-
-
 
         scope.launch {
             val deferred: Deferred<ArrayList<getComment>> = async {
