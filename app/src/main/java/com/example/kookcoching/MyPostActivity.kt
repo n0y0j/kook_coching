@@ -146,6 +146,8 @@ class MyPostActivity : AppCompatActivity() {
 
             job.join()
 
+            // 2020.11.06 / 문성찬 / 인텐트로 액티비티 넘김
+            // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             runOnUiThread {
                 var adapter = RecyclerAdapter(postList)
                 Log.d("zzzzzzzzzzzzzzzz", postList.toString())

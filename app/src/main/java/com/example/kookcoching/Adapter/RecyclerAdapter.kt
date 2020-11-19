@@ -49,6 +49,7 @@ class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<R
     }
 
     // 카드뷰 xml을 이용해 리사이클뷰 아이템 표시
+    // 내부 클래스로 ViewHolder 구현함으로써 bind 함수 생성
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         val tag = itemView?.findViewById<TextView>(R.id.cardView_tag)

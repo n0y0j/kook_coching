@@ -42,8 +42,6 @@ class PostViewActivity : AppCompatActivity() {
         val btn_like = findViewById(R.id.btn_like) as ImageView
         val btn_scrap = findViewById(R.id.btn_scrap) as ImageView
 
-
-        // 댓글 작성 버튼
         val btn_write = findViewById(R.id.btn_commentWrite) as Button
 
         val title = findViewById(R.id.tv_title) as TextView
@@ -180,9 +178,7 @@ class PostViewActivity : AppCompatActivity() {
                 Log.d(ContentValues.TAG, "obj : ${i.comment}, ${i.time}")
             }
 
-
             this@PostViewActivity.runOnUiThread(Runnable {
-
                 // 리사이클러뷰에 연결
                 val adapter = CommentRecyclerAdapter(commentList, post_time, intent) // 해당 게시물의 작성 시간을 얻어오기 위함
                 rv_comment.adapter = adapter
@@ -190,7 +186,6 @@ class PostViewActivity : AppCompatActivity() {
                 val layoutManager = LinearLayoutManager(this@PostViewActivity)
                 rv_comment.layoutManager = layoutManager
                 rv_comment.setHasFixedSize(true)
-
             })
         }
 

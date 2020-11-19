@@ -184,6 +184,7 @@ class WriteBoardActivity : AppCompatActivity() {
         btn_cancel.setOnClickListener {
             finish()
         }
+
         // 2020.11.2 / 노성환 / 게시글 수정하면 firestore 게시글의 필드값 수정
         // 2020.11.14 / 문성찬 / 전공 게시판, 프로젝트 게시판에도 적용되게끔 추가
         // 2020.11.17 / 문성찬 / 게시글 수정 시 아무것도 입력 안했을 때의 수행처리되는 에러 수정

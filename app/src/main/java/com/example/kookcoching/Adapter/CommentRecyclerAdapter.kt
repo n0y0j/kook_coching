@@ -47,6 +47,7 @@ class CommentRecyclerAdapter(
     }
 
     // 카드뷰 xml을 이용해 리사이클뷰 아이템 표시
+    // 내부 클래스로 ViewHolder 구현함으로써 bind 함수 생성
     // 2020.11.07 / 노성환 / 댓글의 삭제 기능
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener, PopupMenu.OnMenuItemClickListener {
