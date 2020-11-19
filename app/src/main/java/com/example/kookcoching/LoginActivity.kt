@@ -61,32 +61,38 @@ class LoginActivity : AppCompatActivity() {
         passBtn.setOnClickListener {
             val email : EditText = EditText(this);
 
-            val builder : AlertDialog.Builder = AlertDialog.Builder(this);
-            builder.setTitle("비밀번호 찾기");
-            builder.setMessage("이메일을 입력해주세요");
-            builder.setView(email);
-            builder.setPositiveButton("보내기",
-                object: DialogInterface.OnClickListener {
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        FirebaseAuth.getInstance().sendPasswordResetEmail(email.text.toString())
-                            .addOnCompleteListener {task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(getApplicationContext(), "재설정 메일을 보냈습니다." ,Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "이메일을 확인해주세요" ,Toast.LENGTH_LONG).show();
-                                }
+                val builder : AlertDialog.Builder = AlertDialog.Builder(this);
+                builder.setTitle("비밀번호 찾기");
+                builder.setMessage("이메일을 입력해주세요");
+                builder.setView(email);
+                builder.setPositiveButton("보내기",
+                    object: DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                            if (email.text.toString() != "") {
+                                FirebaseAuth.getInstance().sendPasswordResetEmail(email.text.toString())
+                                    .addOnCompleteListener {task ->
+                                        if (task.isSuccessful) {
+                                            Toast.makeText(getApplicationContext(), "재설정 메일을 보냈습니다." ,Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "이메일을 확인해주세요" ,Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "이메일을 적어주세요" ,Toast.LENGTH_LONG).show();
                             }
 
-                    }
+                        }
 
-                })
-            builder.setNegativeButton("취소",
-                object: DialogInterface.OnClickListener {
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                    })
+                builder.setNegativeButton("취소",
+                    object: DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
 
-                    }
-                });
-            builder.show();
+                        }
+                    })
+                builder.show()
         }
 
 
