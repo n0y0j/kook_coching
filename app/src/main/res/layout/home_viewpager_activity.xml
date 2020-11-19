@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/card_view"
+        android:layout_margin="5dp"
+        card_view:cardBackgroundColor="#000000"
+        card_view:cardCornerRadius="12dp"
+        card_view:cardElevation="3dp"
+        card_view:contentPadding="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/tmonmonsori"
+                android:textSize="40dp"
+                android:text="Python"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/tmonmonsori"
+                    android:textSize="30dp"
+                    android:text="1위"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/tmonmonsori"
+                        android:textSize="25dp"
+                        android:text="사용률:"/>
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/tmonmonsori"
+                        android:textSize="25dp"
+                        android:text="16.57%"
+                        android:layout_marginLeft="7dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/tmonmonsori"
+                        android:textSize="25dp"
+                        android:text="변화량:"/>
+
+                    <TextView
+                        android:id="@+id/change"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/tmonmonsori"
+                        android:textSize="25dp"
+                        android:text="-3.57%"
+                        android:layout_marginLeft="7dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
