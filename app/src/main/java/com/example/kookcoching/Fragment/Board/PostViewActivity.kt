@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.share_viewpost.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -262,9 +263,51 @@ class PostViewActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                db.collection("major_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .collection("major_post_comment")
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (document in task.result!!) {
+                                db.collection("major_post")
+                                    .document(inIntent.getLongExtra("time", 0).toString())
+                                    .collection("major_post_comment").document(document.id)
+                                    .delete()
+                            }
+                        }
+                    }
+
+                db.collection("project_post").document(inIntent.getLongExtra("time", 0).toString())
+                    .collection("project_post_comment")
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (document in task.result!!) {
+                                db.collection("project_post")
+                                    .document(inIntent.getLongExtra("time", 0).toString())
+                                    .collection("project_post_comment").document(document.id)
+                                    .delete()
+                            }
+                        }
+                    }
                 Thread.sleep(1000L)
                 // 그 이후 게시글을 지움
                 firestore!!.collection("share_post")
+                    .document(inIntent.getLongExtra("time", 0).toString()).delete()
+                    .addOnCompleteListener {
+                        // 지우면 다시 게시판 목록으로 이동
+                        finish()
+                    }
+
+                firestore!!.collection("major_post")
+                    .document(inIntent.getLongExtra("time", 0).toString()).delete()
+                    .addOnCompleteListener {
+                        // 지우면 다시 게시판 목록으로 이동
+                        finish()
+                    }
+
+                firestore!!.collection("project_post")
                     .document(inIntent.getLongExtra("time", 0).toString()).delete()
                     .addOnCompleteListener {
                         // 지우면 다시 게시판 목록으로 이동
