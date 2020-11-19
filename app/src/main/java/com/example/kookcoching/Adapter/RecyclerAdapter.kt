@@ -63,7 +63,8 @@ class RecyclerAdapter(val itemList: ArrayList<getPost>) : RecyclerView.Adapter<R
 
             tag?.text = "[" + post.tag + "]"
             title?.text = post.title
-            content?.text = post.content
+            if (post.content.length > 23) content?.text = (post.content).substring(0, 23) + "..."
+            else content?.text = post.content
             writer?.text = post.nickname
             goodCount?.text = post.goodCount.size.toString()
             scrapCount?.text = post.scrapCount.size.toString()
