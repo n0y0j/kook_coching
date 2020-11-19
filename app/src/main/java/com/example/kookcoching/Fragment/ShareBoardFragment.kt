@@ -110,7 +110,11 @@ class ShareBoardFragment : Fragment() {
             // runOnUiThread를 이용해서 코루틴에서도 UI 표시되게끔 설정
             activity?.runOnUiThread(Runnable {
 
-                // 2020.11.02 / 문성찬 / spinner를 이용한 tag별로 게시판 글 표시 구현
+                // 2020.11.18 / 문성찬 / 게시판 표시 시 검색어와 스피너 값 초기화 작성
+                et_search.setText("")
+                spinner.setSelection(0)
+
+                // 2020.11.02 / 문성찬 / spinner를 이용한 tag별 게시판 글 표시 구현
                 spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(p0: AdapterView<*>?) {
                         var adapter = RecyclerAdapter(postList)
@@ -131,6 +135,27 @@ class ShareBoardFragment : Fragment() {
                         }
 
                         var adapter = RecyclerAdapter(selectedPostList)
+                        // 2020.11.18 / 문성찬 / 분류 후 리사이클뷰 클릭 시 인텐트로 액티비티 안 넘어가는 오류 해결
+                        adapter.setItemClickListener(object : RecyclerAdapter.itemClickListener{
+                            override fun onClick(view: View, position: Int) {
+                                // 넘어가는 인텐트 로그캣
+                                Log.d("check","인덱스 : ${position}")
+                                Log.d("check","title : ${selectedPostList[position].title}")
+                                Log.d("check","content : ${selectedPostList[position].content}")
+
+                                val intent = Intent(context, PostViewActivity::class.java)
+                                intent.putExtra("title", selectedPostList[position].title)
+                                intent.putExtra("content", selectedPostList[position].content)
+                                intent.putExtra("time", selectedPostList[position].time)
+                                intent.putExtra("image", selectedPostList[position].image)
+                                intent.putExtra("author", selectedPostList[position].author)
+                                intent.putExtra("nickname", selectedPostList[position].nickname)
+                                intent.putExtra("goodCount", selectedPostList[position].goodCount)
+                                intent.putExtra("scrapCount", selectedPostList[position].scrapCount)
+
+                                startActivityForResult(intent, 0)
+                            }
+                        })
                         rv_post.adapter = adapter
                     }
                 }
@@ -172,6 +197,27 @@ class ShareBoardFragment : Fragment() {
                     }
 
                     var adapter = RecyclerAdapter(selectedPostList)
+                    // 2020.11.18 / 문성찬 / 검색 후 리사이클뷰 클릭 시 인텐트로 액티비티 안 넘어가는 오류 해결
+                    adapter.setItemClickListener(object : RecyclerAdapter.itemClickListener{
+                        override fun onClick(view: View, position: Int) {
+                            // 넘어가는 인텐트 로그캣
+                            Log.d("check","인덱스 : ${position}")
+                            Log.d("check","title : ${selectedPostList[position].title}")
+                            Log.d("check","content : ${selectedPostList[position].content}")
+
+                            val intent = Intent(context, PostViewActivity::class.java)
+                            intent.putExtra("title", selectedPostList[position].title)
+                            intent.putExtra("content", selectedPostList[position].content)
+                            intent.putExtra("time", selectedPostList[position].time)
+                            intent.putExtra("image", selectedPostList[position].image)
+                            intent.putExtra("author", selectedPostList[position].author)
+                            intent.putExtra("nickname", selectedPostList[position].nickname)
+                            intent.putExtra("goodCount", selectedPostList[position].goodCount)
+                            intent.putExtra("scrapCount", selectedPostList[position].scrapCount)
+
+                            startActivityForResult(intent, 0)
+                        }
+                    })
                     rv_post.adapter = adapter
                 }
 
