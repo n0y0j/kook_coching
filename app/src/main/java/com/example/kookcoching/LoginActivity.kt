@@ -46,14 +46,19 @@ class LoginActivity : AppCompatActivity() {
             val id = EmailText.text.toString()
             val password = PasswordText.text.toString()
 
-            firebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener { p0 ->
-                if (p0.isSuccessful) {
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                }else {
-                    Toast.makeText(this@LoginActivity, "등록된 사용자가 아닙니다.", Toast.LENGTH_SHORT).show()
+            if ( id != "" || password != "") {
+                firebaseAuth.signInWithEmailAndPassword(id, password).addOnCompleteListener { p0 ->
+                    if (p0.isSuccessful) {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }else {
+                        Toast.makeText(this@LoginActivity, "등록된 사용자가 아닙니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+            else Toast.makeText(getApplicationContext(), "이메일 또는 비밀번호를 입력해주세요" ,Toast.LENGTH_LONG).show();
+
+
         }
 
         // 2020.11.11 / 노용준 / 비밀번호 찾기

@@ -51,46 +51,50 @@ class RegisterActivity : AppCompatActivity() {
             val password = PasswordText.text.toString()
             val check_password = CheckPasswordText.text.toString()
 
-            // 비밀번호와 비밀번호 체크가 같은지 확인
-            if (password.equals(check_password)) {
-                Log.d("CHECK", "등록: " + email + " " + password)
+            if ( name != "" || email != "" || password != "" || check_password != "" ) {
+                // 비밀번호와 비밀번호 체크가 같은지 확인
+                if (password.equals(check_password)) {
+                    Log.d("CHECK", "등록: " + email + " " + password)
 
-                // 새로운 user 생성
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { p0 ->
-                    // 성공했다면 Firestore에 User의 정보를 저장
-                    if (p0.isSuccessful) {
-                        val user = firebaseAuth.currentUser as FirebaseUser
-                        val user_id = user.email
-                        val user_uid = user.uid
-                        val user_name = NameText.text.toString()
+                    // 새로운 user 생성
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { p0 ->
+                        // 성공했다면 Firestore에 User의 정보를 저장
+                        if (p0.isSuccessful) {
+                            val user = firebaseAuth.currentUser as FirebaseUser
+                            val user_id = user.email
+                            val user_uid = user.uid
+                            val user_name = NameText.text.toString()
 
-                        val hashMap: HashMap<Any, String> = HashMap()
+                            val hashMap: HashMap<Any, String> = HashMap()
 
-                        hashMap.put("id", user_id.toString())
-                        hashMap.put("name", user_name)
+                            hashMap.put("id", user_id.toString())
+                            hashMap.put("name", user_name)
 
-                        val firestore = FirebaseFirestore.getInstance()
+                            val firestore = FirebaseFirestore.getInstance()
 
-                        // user의 id, email을 firestore에 저장
-                        firestore.collection("user").document(user_uid).set(hashMap)
+                            // user의 id, email을 firestore에 저장
+                            firestore.collection("user").document(user_uid).set(hashMap)
 
-                        Toast.makeText(this@RegisterActivity, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT)
-                            .show();
-                        finish()
-                    }
-                    // 이미 존재하는 아이디가 있는 경우
-                    else {
-                        Toast.makeText(
-                            this@RegisterActivity,
-                            "이미 존재하는 아이디 입니다.",
-                            Toast.LENGTH_SHORT
-                        ).show();
+                            Toast.makeText(this@RegisterActivity, "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT)
+                                .show();
+                            finish()
+                        }
+                        // 이미 존재하는 아이디가 있는 경우
+                        else {
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "이미 존재하는 아이디 입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show();
+                        }
                     }
                 }
+                else {
+                    Toast.makeText(this@RegisterActivity, "비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show()
+                }
             }
-            else {
-                Toast.makeText(this@RegisterActivity, "비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show()
-            }
+            else Toast.makeText(this@RegisterActivity, "입력 항목을 확인해주세요", Toast.LENGTH_SHORT).show()
+
         }
     }
 }
